@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+// const { ObjectId } = mongoose.Types;
 
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -46,7 +48,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, user: { id: user.id, name: user.name } });
       }
     );
   } catch (err) {
@@ -57,6 +59,31 @@ exports.loginUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getUserInfo = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    console.log("I have been summoned", userId);
+
+    // const user = await User.find({ _id: ObjectId(userId) }).select("-password");
+    // var userobj = ObjectId(userId);
+    try {
+      var _id = new mongoose.Types.ObjectId(userId);
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("I have been summoned", _id);
+    // const user = await User.find_one(
+    //   { _id: ObjectId(userId) },
+    //   { password: 0 }
+    // );
+    const user = await User.findById(_id).select("-password");
+    console.log("I have been summoned", user);
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
