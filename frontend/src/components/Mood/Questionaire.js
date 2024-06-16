@@ -12,6 +12,7 @@ import {
   Card,
   CardContent,
   Typography,
+  Container,
 } from "@mui/material";
 import { saveAnswers } from "./QuestionaireService";
 
@@ -65,78 +66,83 @@ const Questionaire = () => {
   };
 
   return (
-    <Card bgcolor="background.default">
-      <CardContent>
-        <FormControl component="fieldset">
-          <Typography
-            variant="h6"
-            component="legend"
-            sx={{ fontSize: "1.5rem", marginBottom: "10px" }}
-          >
-            {questions[currentQuestion].question}
-          </Typography>
-          {questions[currentQuestion].multiple ? (
-            <FormGroup>
-              {questions[currentQuestion].options.map((option, index) => (
-                <FormControlLabel
-                  key={index}
-                  control={
-                    <Checkbox
-                      checked={currentAnswer.includes(option)}
-                      onChange={handleChange}
-                      value={option}
-                      sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }} // Increase checkbox size
-                    />
-                  }
-                  label={
-                    <Typography sx={{ fontSize: "1.25rem" }}>
-                      {option}
-                    </Typography>
-                  }
-                />
-              ))}
-            </FormGroup>
-          ) : (
-            <RadioGroup value={currentAnswer[0] || ""} onChange={handleChange}>
-              {questions[currentQuestion].options.map((option, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={option}
-                  control={
-                    <Radio sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }} />
-                  } // Increase radio button size
-                  label={
-                    <Typography sx={{ fontSize: "1.25rem" }}>
-                      {option}
-                    </Typography>
-                  }
-                />
-              ))}
-            </RadioGroup>
-          )}
-          <div style={{ marginTop: "20px" }}>
-            {currentQuestion > 0 && (
-              <Button
-                variant="contained"
-                onClick={handleBack}
-                style={{ marginRight: "10px" }}
-              >
-                Back
-              </Button>
-            )}
-            {currentQuestion < questions.length - 1 ? (
-              <Button variant="contained" onClick={handleNext}>
-                Next
-              </Button>
+    <Container maxWidth="md" sx={{ marginTop: 4 }}>
+      <Card bgcolor="background.default">
+        <CardContent>
+          <FormControl component="fieldset">
+            <Typography
+              variant="h6"
+              component="legend"
+              sx={{ fontSize: "1.5rem", marginBottom: "10px" }}
+            >
+              {questions[currentQuestion].question}
+            </Typography>
+            {questions[currentQuestion].multiple ? (
+              <FormGroup>
+                {questions[currentQuestion].options.map((option, index) => (
+                  <FormControlLabel
+                    key={index}
+                    control={
+                      <Checkbox
+                        checked={currentAnswer.includes(option)}
+                        onChange={handleChange}
+                        value={option}
+                        sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }} // Increase checkbox size
+                      />
+                    }
+                    label={
+                      <Typography sx={{ fontSize: "1.25rem" }}>
+                        {option}
+                      </Typography>
+                    }
+                  />
+                ))}
+              </FormGroup>
             ) : (
-              <Button variant="contained" onClick={handleSubmit}>
-                Submit
-              </Button>
+              <RadioGroup
+                value={currentAnswer[0] || ""}
+                onChange={handleChange}
+              >
+                {questions[currentQuestion].options.map((option, index) => (
+                  <FormControlLabel
+                    key={index}
+                    value={option}
+                    control={
+                      <Radio sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }} />
+                    } // Increase radio button size
+                    label={
+                      <Typography sx={{ fontSize: "1.25rem" }}>
+                        {option}
+                      </Typography>
+                    }
+                  />
+                ))}
+              </RadioGroup>
             )}
-          </div>
-        </FormControl>
-      </CardContent>
-    </Card>
+            <div style={{ marginTop: "20px" }}>
+              {currentQuestion > 0 && (
+                <Button
+                  variant="contained"
+                  onClick={handleBack}
+                  style={{ marginRight: "10px" }}
+                >
+                  Back
+                </Button>
+              )}
+              {currentQuestion < questions.length - 1 ? (
+                <Button variant="contained" onClick={handleNext}>
+                  Next
+                </Button>
+              ) : (
+                <Button variant="contained" onClick={handleSubmit}>
+                  Submit
+                </Button>
+              )}
+            </div>
+          </FormControl>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

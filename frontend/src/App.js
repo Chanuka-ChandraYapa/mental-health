@@ -29,8 +29,8 @@ const App = () => (
           <Route path="/chat" element={<Chat />} />
           <Route path="/support" element={<Forum />} />
           <Route path="/mood" element={<Mood />} />
-          {/* <Route path="/resources" element={<Resources />} /> */}
-          <Route path="/resources" element={<Blog />} />
+          <Route path="/resources/videos" element={<Resources />} />
+          <Route path="/resources/articles" element={<Blog />} />
         </Routes>
       </Router>
     </Provider>

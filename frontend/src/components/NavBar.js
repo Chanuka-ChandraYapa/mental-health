@@ -7,6 +7,8 @@ import {
   Typography,
   Button,
   Link,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -54,6 +56,27 @@ const NavBar = () => {
         break;
     }
   };
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleVideos = (event) => {
+    setValue(4);
+    navigate(`/resources/videos`);
+    setAnchorEl(null);
+  };
+
+  const handleArticles = (event) => {
+    setValue(4);
+    navigate(`/resources/articles`);
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar position="fixed">
@@ -66,7 +89,29 @@ const NavBar = () => {
           {token && <Tab label="Chat" />}
           {token && <Tab label="Mood" />}
           {token && <Tab label="Recommendations" />}
-          {token && <Tab label="Resources" />}
+          {token && (
+            <>
+              <Tab label="Resources" onClick={handleMenu} />
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleVideos}>Videos</MenuItem>
+                <MenuItem onClick={handleArticles}>Articles</MenuItem>
+              </Menu>
+            </>
+          )}
           {token && <Tab label="Support" />}
           {token && <Tab label="Therapists" />}
         </Tabs>

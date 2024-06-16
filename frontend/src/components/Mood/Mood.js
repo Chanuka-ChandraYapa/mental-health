@@ -66,7 +66,7 @@ IconContainer.propTypes = {
 
 export default function Mood() {
   return (
-    <Box bgcolor="background.default">
+    <Box bgcolor="background.default" pb={10} minHeight="100vh">
       <Box
         display="flex"
         flexDirection="column"
