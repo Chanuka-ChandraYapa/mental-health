@@ -8,10 +8,10 @@ const theme = createTheme({
       paper: "#1e1e1e", // Set a slightly lighter color for paper surfaces
     },
     primary: {
-      main: "#90caf9", // Change this to your preferred primary color
+      main: "#0bdc84", // Change this to your preferred primary color
     },
     secondary: {
-      main: "#f48fb1", // Change this to your preferred secondary color
+      main: "#89f0c3", // Change this to your preferred secondary color
     },
   },
 });

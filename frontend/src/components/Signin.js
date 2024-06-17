@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
 import { TextField, Button, Typography, Container, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Import the hook
+import { GradientButton } from "./GradientButton";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -30,10 +31,30 @@ const SignIn = () => {
   };
 
   return (
-    <Box bgcolor="background.default" minHeight="100vh">
+    <Box
+      sx={{
+        position: "relative",
+        minHeight: "100vh",
+        backgroundImage: `url('/signin.jpeg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.9)", // Change this to adjust the overlay opacity
+          zIndex: 1,
+        },
+      }}
+    >
       <Container
         maxWidth="sm"
         sx={{
+          position: "relative",
+          zIndex: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -41,7 +62,13 @@ const SignIn = () => {
           minHeight: "100vh",
         }}
       >
-        <Typography variant="h4" component="h2" gutterBottom>
+        <Typography
+          variant="h4"
+          component="h2"
+          gutterBottom
+          color="primary.main"
+          mb={5}
+        >
           Sign In
         </Typography>
         <form
@@ -71,11 +98,13 @@ const SignIn = () => {
             name="password"
             value={password}
             onChange={onChange}
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 5 }}
           />
-          <Button variant="contained" color="primary" type="submit">
-            Sign In
-          </Button>
+          <div align="center">
+            <GradientButton variant="contained" color="primary" type="submit">
+              Sign In
+            </GradientButton>
+          </div>
         </form>
       </Container>
     </Box>

@@ -82,7 +82,7 @@ const NavBar = () => {
     <AppBar position="fixed">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Mental Health Platform
+          Mental Bloom
         </Typography>
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Home" />
