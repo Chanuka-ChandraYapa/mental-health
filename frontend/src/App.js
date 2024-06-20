@@ -11,32 +11,34 @@ import Home from "./components/Home";
 import Chat from "./components/Chat";
 import NavBar from "./components/NavBar";
 import Forum from "./components/Forum/Forum";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import Mood from "./components/Mood/Mood";
 import Resources from "./components/Resources";
 import Blog from "./components/Resources/blog";
 import Recommendation from "./components/Recommendations/Recomm";
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Router>
-        <NavBar />
-        <Box mt={5}></Box>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/support" element={<Forum />} />
-          <Route path="/mood" element={<Mood />} />
-          <Route path="/resources/videos" element={<Resources />} />
-          <Route path="/resources/articles" element={<Blog />} />
-          <Route path="/recommendations" element={<Recommendation />} />
-        </Routes>
-      </Router>
-    </Provider>
-  </ThemeProvider>
-);
-
+const App = () => {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>
+          <NavBar />
+          <Box mt={isMobile ? 5 : 5}></Box>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/support" element={<Forum />} />
+            <Route path="/mood" element={<Mood />} />
+            <Route path="/resources/videos" element={<Resources />} />
+            <Route path="/resources/articles" element={<Blog />} />
+            <Route path="/recommendations" element={<Recommendation />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </ThemeProvider>
+  );
+};
 export default App;

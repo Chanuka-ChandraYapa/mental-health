@@ -8,9 +8,11 @@ import {
   Typography,
   CircularProgress,
   Link as MuiLink,
+  useMediaQuery,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import { useTheme } from "@emotion/react";
 
 const Chat = () => {
   const [userInput, setUserInput] = useState("");
@@ -24,13 +26,17 @@ const Chat = () => {
 
   const handleSend = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:5000/chatbot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: userInput }),
-    });
+    const response = await fetch(
+      "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: userInput }),
+        // mode: "no-cors",
+      }
+    );
     const data = await response.json();
     setChatHistory([
       ...chatHistory,
@@ -78,6 +84,8 @@ const Chat = () => {
     setChatHistory([]);
     localStorage.removeItem("chatHistory");
   };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box
@@ -88,27 +96,29 @@ const Chat = () => {
       minHeight="100vh"
       bgcolor="background.default"
       color="text.primary"
-      p={3}
+      p={isMobile ? 0 : 2}
     >
-      <Box sx={{ display: "flex", padding: 2 }}>
-        <Typography variant="h4" gutterBottom>
-          Mental Health Chatbot
-        </Typography>
-        <Typography
-          color="secondary"
-          onClick={handleReset}
-          sx={{ marginLeft: 2, cursor: "pointer" }}
-          align="center"
-          mt={2}
-        >
-          ↺
-        </Typography>
-      </Box>
+      {!isMobile && (
+        <Box sx={{ display: "flex", padding: isMobile ? 0 : 2 }}>
+          <Typography variant="h4" gutterBottom>
+            Mental Health Chatbot
+          </Typography>
+          <Typography
+            color="secondary"
+            onClick={handleReset}
+            sx={{ marginLeft: 2, cursor: "pointer" }}
+            align="center"
+            mt={2}
+          >
+            ↺
+          </Typography>
+        </Box>
+      )}
       <Card
         sx={{
           width: "100%",
-          maxWidth: 600,
-          height: 600,
+          maxWidth: isMobile ? "100vh" : 600,
+          height: isMobile ? "100vh" : 600,
           display: "flex",
           flexDirection: "column",
         }}
@@ -162,7 +172,11 @@ const Chat = () => {
           ))}
           <div ref={chatEndRef} />
         </CardContent>
-        <Box sx={{ display: "flex", padding: 2 }}>
+        <Box
+          position="relative"
+          bottom={0}
+          sx={{ display: "flex", padding: 2 }}
+        >
           <TextField
             variant="outlined"
             label="Type a message"
