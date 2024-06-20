@@ -13,6 +13,7 @@ import {
 // import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@emotion/react";
+import { v4 as uuidv4 } from "uuid";
 
 const Chat = () => {
   const [userInput, setUserInput] = useState("");
@@ -25,36 +26,39 @@ const Chat = () => {
   const chatEndRef = useRef(null);
 
   const handleSend = async () => {
-    setLoading(true);
-    const response = await fetch(
-      "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: userInput }),
-        // mode: "no-cors",
-      }
-    );
-    const data = await response.json();
-    setChatHistory([
-      ...chatHistory,
-      { message: userInput, sender: "user" },
-      { message: data.response, sender: "bot" },
-    ]);
-    setUserInput("");
-    setLoading(false);
-    localStorage.setItem(
-      "chatHistory",
-      JSON.stringify([
+    if (userInput !== "") {
+      setLoading(true);
+      const response = await fetch(
+        "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+        // "http://localhost:5000/chatbot",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: userInput, sessionId }),
+          // mode: "no-cors",
+        }
+      );
+      const data = await response.json();
+      setChatHistory([
         ...chatHistory,
         { message: userInput, sender: "user" },
         { message: data.response, sender: "bot" },
-      ])
-    );
-    console.log(chatHistory);
-    console.log(localStorage.getItem("chatHistory"));
+      ]);
+      setUserInput("");
+      setLoading(false);
+      localStorage.setItem(
+        "chatHistory",
+        JSON.stringify([
+          ...chatHistory,
+          { message: userInput, sender: "user" },
+          { message: data.response, sender: "bot" },
+        ])
+      );
+      console.log(chatHistory);
+      console.log(localStorage.getItem("chatHistory"));
+    }
   };
 
   const handleKeyPress = (event) => {
@@ -87,6 +91,11 @@ const Chat = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const sessionId = localStorage.getItem("sessionId") || uuidv4();
+  if (!localStorage.getItem("sessionId")) {
+    localStorage.setItem("sessionId", sessionId);
+  }
+
   return (
     <Box
       display="flex"
@@ -96,11 +105,11 @@ const Chat = () => {
       minHeight="100vh"
       bgcolor="background.default"
       color="text.primary"
-      p={isMobile ? 0 : 2}
+      p={isMobile ? 0 : 0}
     >
       {!isMobile && (
-        <Box sx={{ display: "flex", padding: isMobile ? 0 : 2 }}>
-          <Typography variant="h4" gutterBottom>
+        <Box sx={{ display: "flex", padding: isMobile ? 0 : 0 }}>
+          <Typography variant="h4" gutterBottom mt={2}>
             Mental Health Chatbot
           </Typography>
           <Typography
@@ -108,7 +117,7 @@ const Chat = () => {
             onClick={handleReset}
             sx={{ marginLeft: 2, cursor: "pointer" }}
             align="center"
-            mt={2}
+            mt={4}
           >
             ↺
           </Typography>
@@ -132,7 +141,7 @@ const Chat = () => {
             }}
           >
             <img
-              src="/robo.gif"
+              src="/robotf.png"
               style={{ width: "200px", height: "200px" }}
               alt="Robot"
             />
@@ -156,7 +165,9 @@ const Chat = () => {
                 }}
               >
                 {chat.sender === "user" ? (
-                  <Typography variant="body1">{chat.message}</Typography>
+                  <Typography variant="body1" align="left">
+                    {chat.message}
+                  </Typography>
                 ) : (
                   // renderMessage(chat.message)
                   <ReactMarkdown
