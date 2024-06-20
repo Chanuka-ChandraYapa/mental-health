@@ -18,6 +18,7 @@ const MAX_RESULTS = 12;
 const YouTubeEmbed = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -30,6 +31,7 @@ const YouTubeEmbed = () => {
       } catch (error) {
         console.error("Error fetching YouTube videos", error);
         setLoading(false);
+        setError(true);
       }
     };
 
@@ -37,9 +39,38 @@ const YouTubeEmbed = () => {
   }, []);
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        bgcolor="background.default"
+        color="text.primary"
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
-
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        bgcolor="background.default"
+        color="text.primary"
+        px={2}
+      >
+        <Typography variant="h4" color="primary.main" align="center">
+          Something Went Wrong! Please Try Reloading
+        </Typography>
+      </Box>
+    );
+  }
   return (
     <Box bgcolor="background.default" pt={5}>
       <Typography variant="h4" gutterBottom color="text.primary">

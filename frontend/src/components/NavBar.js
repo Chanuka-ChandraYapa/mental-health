@@ -6,10 +6,16 @@ import {
   Toolbar,
   Typography,
   Button,
-  Link,
   Menu,
   MenuItem,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  useMediaQuery,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -17,6 +23,11 @@ const NavBar = () => {
   const [value, setValue] = useState(0);
   const navigate = useNavigate(); // Use the hook
   const { token } = useSelector((state) => state.user);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
   const handleLogOut = () => {
     localStorage.removeItem("token");
     setValue(0);
@@ -30,6 +41,7 @@ const NavBar = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    handleClose();
     switch (newValue) {
       case 0:
         navigate("/");
@@ -56,7 +68,6 @@ const NavBar = () => {
         break;
     }
   };
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -66,17 +77,81 @@ const NavBar = () => {
     setAnchorEl(null);
   };
 
-  const handleVideos = (event) => {
+  const handleVideos = () => {
     setValue(4);
     navigate(`/resources/videos`);
     setAnchorEl(null);
   };
 
-  const handleArticles = (event) => {
+  const handleArticles = () => {
     setValue(4);
     navigate(`/resources/articles`);
     setAnchorEl(null);
   };
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
+  const menuItems = (
+    <div
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem button onClick={() => handleChange(null, 0)}>
+          <ListItemText primary="Home" />
+        </ListItem>
+        {token && (
+          <>
+            <ListItem button onClick={() => handleChange(null, 1)}>
+              <ListItemText primary="Chat" />
+            </ListItem>
+            <ListItem button onClick={() => handleChange(null, 2)}>
+              <ListItemText primary="Mood" />
+            </ListItem>
+            <ListItem button onClick={() => handleChange(null, 3)}>
+              <ListItemText primary="Recommendations" />
+            </ListItem>
+            <ListItem button onClick={handleMenu}>
+              <ListItemText primary="Resources" />
+            </ListItem>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleVideos}>Videos</MenuItem>
+              <MenuItem onClick={handleArticles}>Articles</MenuItem>
+            </Menu>
+            <ListItem button onClick={() => handleChange(null, 5)}>
+              <ListItemText primary="Support" />
+            </ListItem>
+            <ListItem button onClick={() => handleChange(null, 6)}>
+              <ListItemText primary="Therapists" />
+            </ListItem>
+          </>
+        )}
+      </List>
+    </div>
+  );
 
   return (
     <AppBar position="fixed">
@@ -84,45 +159,67 @@ const NavBar = () => {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Mental Bloom
         </Typography>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="Home" />
-          {token && <Tab label="Chat" />}
-          {token && <Tab label="Mood" />}
-          {token && <Tab label="Recommendations" />}
-          {token && (
-            <>
-              <Tab label="Resources" onClick={handleMenu} />
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleVideos}>Videos</MenuItem>
-                <MenuItem onClick={handleArticles}>Articles</MenuItem>
-              </Menu>
-            </>
-          )}
-          {token && <Tab label="Support" />}
-          {token && <Tab label="Therapists" />}
-        </Tabs>
-        {token ? (
-          <Button color="inherit" onClick={handleLogOut}>
-            Log Out
-          </Button>
+        {isMobile ? (
+          <>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Drawer
+              anchor="left"
+              open={drawerOpen}
+              onClose={toggleDrawer(false)}
+            >
+              {menuItems}
+            </Drawer>
+          </>
         ) : (
-          <Button color="inherit" onClick={handleSignIn}>
-            Sign In
-          </Button>
+          <>
+            <Tabs value={value} onChange={handleChange}>
+              <Tab label="Home" />
+              {token && <Tab label="Chat" />}
+              {token && <Tab label="Mood" />}
+              {token && <Tab label="Recommendations" />}
+              {token && (
+                <>
+                  <Tab label="Resources" onClick={handleMenu} />
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleVideos}>Videos</MenuItem>
+                    <MenuItem onClick={handleArticles}>Articles</MenuItem>
+                  </Menu>
+                </>
+              )}
+              {token && <Tab label="Support" />}
+              {token && <Tab label="Therapists" />}
+            </Tabs>
+            {token ? (
+              <Button color="inherit" onClick={handleLogOut}>
+                Log Out
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={handleSignIn}>
+                Sign In
+              </Button>
+            )}
+          </>
         )}
       </Toolbar>
     </AppBar>

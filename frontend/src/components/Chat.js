@@ -6,14 +6,24 @@ import {
   Button,
   Box,
   Typography,
+  CircularProgress,
+  Link as MuiLink,
 } from "@mui/material";
+import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 const Chat = () => {
   const [userInput, setUserInput] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState(
+    localStorage.getItem("chatHistory")
+      ? JSON.parse(localStorage.getItem("chatHistory"))
+      : []
+  );
+  const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
   const handleSend = async () => {
+    setLoading(true);
     const response = await fetch("http://localhost:5000/chatbot", {
       method: "POST",
       headers: {
@@ -28,11 +38,46 @@ const Chat = () => {
       { message: data.response, sender: "bot" },
     ]);
     setUserInput("");
+    setLoading(false);
+    localStorage.setItem(
+      "chatHistory",
+      JSON.stringify([
+        ...chatHistory,
+        { message: userInput, sender: "user" },
+        { message: data.response, sender: "bot" },
+      ])
+    );
+    console.log(chatHistory);
+    console.log(localStorage.getItem("chatHistory"));
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && userInput !== "") {
+      handleSend();
+    }
   };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
+
+  const LinkRenderer = (props) => {
+    return (
+      <MuiLink
+        href={props.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{ color: "primary.main" }}
+      >
+        {props.children}
+      </MuiLink>
+    );
+  };
+
+  const handleReset = () => {
+    setChatHistory([]);
+    localStorage.removeItem("chatHistory");
+  };
 
   return (
     <Box
@@ -45,9 +90,20 @@ const Chat = () => {
       color="text.primary"
       p={3}
     >
-      <Typography variant="h4" gutterBottom>
-        Mental Health Chatbot
-      </Typography>
+      <Box sx={{ display: "flex", padding: 2 }}>
+        <Typography variant="h4" gutterBottom>
+          Mental Health Chatbot
+        </Typography>
+        <Typography
+          color="secondary"
+          onClick={handleReset}
+          sx={{ marginLeft: 2, cursor: "pointer" }}
+          align="center"
+          mt={2}
+        >
+          ↺
+        </Typography>
+      </Box>
       <Card
         sx={{
           width: "100%",
@@ -58,6 +114,19 @@ const Chat = () => {
         }}
       >
         <CardContent sx={{ flex: 1, overflowY: "auto" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src="/robo.gif"
+              style={{ width: "200px", height: "200px" }}
+              alt="Robot"
+            />
+          </Box>
           {chatHistory.map((chat, index) => (
             <Box
               key={index}
@@ -66,20 +135,29 @@ const Chat = () => {
                 marginBottom: 2,
               }}
             >
-              <Typography
-                variant="body1"
+              <Box
                 sx={{
                   display: "inline-block",
                   padding: 1,
-                  borderRadius: 1,
-                  bgcolor:
-                    chat.sender === "user" ? "primary.main" : "success.main",
-                  color: "white",
                   borderRadius: 2,
+                  bgcolor: chat.sender === "user" ? "primary.main" : "#141414",
+                  color: "white",
+                  fontFamily: "Segoe UI , sans-serif",
                 }}
               >
-                {chat.message}
-              </Typography>
+                {chat.sender === "user" ? (
+                  <Typography variant="body1">{chat.message}</Typography>
+                ) : (
+                  // renderMessage(chat.message)
+                  <ReactMarkdown
+                    components={{
+                      a: LinkRenderer,
+                    }}
+                  >
+                    {chat.message}
+                  </ReactMarkdown>
+                )}
+              </Box>
             </Box>
           ))}
           <div ref={chatEndRef} />
@@ -90,11 +168,18 @@ const Chat = () => {
             label="Type a message"
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
+            onKeyPress={handleKeyPress}
             fullWidth
             sx={{ marginRight: 2 }}
           />
-          <Button variant="contained" color="primary" onClick={handleSend}>
-            Send
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSend}
+            disabled={loading}
+            startIcon={loading ? <CircularProgress size={24} /> : null}
+          >
+            {loading ? "" : "Send"}
           </Button>
         </Box>
       </Card>

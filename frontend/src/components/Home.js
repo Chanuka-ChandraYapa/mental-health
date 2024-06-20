@@ -10,6 +10,7 @@ import {
   Grid,
   Box,
 } from "@mui/material";
+import { GradientButton } from "./GradientButton";
 
 const Home = () => {
   const { token } = useSelector((state) => state.user);
@@ -58,17 +59,16 @@ const Home = () => {
         ></div>
         <div style={{ position: "relative", zIndex: 2 }}>
           <Typography
-            variant="h4"
+            variant="h3"
             gutterBottom
             color="text.primary"
             align="center"
-            fontSize={80}
             style={{ color: "white" }} // Ensures text color is white for contrast
           >
             Welcome to Mental Bloom
           </Typography>
           <Typography
-            variant="body1"
+            variant="h4"
             paragraph
             color="primary.main"
             align="center"
@@ -78,6 +78,19 @@ const Home = () => {
             guidance for your mental well-being. Here are the key features and
             services we offer.
           </Typography>
+          {!token && (
+            <div alignItems="center">
+              <GradientButton
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/register"
+                sx={{ marginTop: 3 }}
+              >
+                Get Started
+              </GradientButton>
+            </div>
+          )}
         </div>
       </section>
       <Container
@@ -244,8 +257,8 @@ const Home = () => {
                     Therapists and Crisis Interventions
                   </Typography>
                   <Typography variant="body2">
-                    Access professional therapists and crisis interventions when
-                    needed.
+                    Access professional therapists and crisis interventions as
+                    soon as you needed them most.
                   </Typography>
                 </CardContent>
               </Card>
@@ -285,17 +298,6 @@ const Home = () => {
             </Link>
           </Grid>
         </Grid>
-        {!token && (
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            to="/login"
-            sx={{ marginTop: 3 }}
-          >
-            Get Started
-          </Button>
-        )}
       </Container>
     </Box>
   );

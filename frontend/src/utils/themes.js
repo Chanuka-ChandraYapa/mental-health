@@ -14,6 +14,51 @@ const theme = createTheme({
       main: "#89f0c3", // Change this to your preferred secondary color
     },
   },
+  // palette: {
+  //   mode: "light",
+  //   background: {
+  //     default: "white", // Set a dark background color
+  //     paper: "gray", // Set a slightly lighter color for paper surfaces
+  //   },
+  //   primary: {
+  //     main: "#0bdc84", // Change this to your preferred primary color
+  //   },
+  //   secondary: {
+  //     main: "#89f0c3", // Change this to your preferred secondary color
+  //   },
+  // },
 });
+
+theme.typography.h3 = {
+  fontFamily: "Lato , sans-serif",
+  fontSize: "0.5rem",
+  "@media (min-width:300px)": {
+    fontSize: "2rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "4.4rem",
+  },
+};
+theme.typography.h4 = {
+  fontFamily: "Lato , sans-serif",
+  fontSize: "0.5rem",
+  "@media (min-width:300px)": {
+    fontSize: "1.5rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.4rem",
+  },
+};
+
+theme.typography.h5 = {
+  fontFamily: "Lato , sans-serif",
+  fontSize: "0.5rem",
+  "@media (min-width:300px)": {
+    fontSize: "1rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "1.7rem",
+  },
+};
 
 export default theme;
