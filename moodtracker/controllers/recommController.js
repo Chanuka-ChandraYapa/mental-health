@@ -140,17 +140,20 @@ exports.getRecommendations = async (req, res) => {
     // );
     // const answers = response.data;
     // console.log(answers.pop());
-    const response = await fetch("http://127.0.0.1:5000/chatbot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message:
-          " Analyze the schema of questions an answers about a person's todays's mental state and give recommendations to the person with 500 word paragraph with no paragraph breaks. Please give only just the plain paragraph do not include text in point forms. No headings. No sub headings" +
-          answers.pop().answers,
-      }),
-    });
+    const response = await fetch(
+      "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message:
+            " Analyze the schema of questions an answers about a person's todays's mental state and give recommendations to the person with 500 word paragraph with no paragraph breaks. Please give only just the plain paragraph do not include text in point forms. No headings. No sub headings" +
+            answers.pop().answers,
+        }),
+      }
+    );
     const data = await response.json();
     res.json({ recommendations: data.response });
     console.log("hi");
