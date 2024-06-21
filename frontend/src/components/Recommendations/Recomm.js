@@ -17,7 +17,7 @@ const Recommendations = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState("");
   const [error, setError] = useState(null);
-  const API_URL = "http://localhost:3003/api";
+  const API_URL = "https://mental-health-mood-tracker.onrender.com/api";
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No token found");
 

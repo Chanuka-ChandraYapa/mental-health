@@ -1,7 +1,7 @@
 // src/services/questionnaireService.js
 import axios from "axios";
 
-const API_URL = "http://localhost:3003/api"; // Update with your backend URL
+const API_URL = "https://mental-health-mood-tracker.onrender.com/api"; // Update with your backend URL
 
 export const saveAnswers = async (answers) => {
   const token = localStorage.getItem("token");
