@@ -39,6 +39,10 @@ const NavBar = () => {
     navigate("/login");
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     handleClose();
@@ -146,6 +150,19 @@ const NavBar = () => {
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 6)}>
               <ListItemText primary="Therapists" />
+            </ListItem>
+            <ListItem button onClick={() => handleLogOut()}>
+              <ListItemText primary="Log Out" />
+            </ListItem>
+          </>
+        )}
+        {!token && (
+          <>
+            <ListItem button onClick={() => handleSignIn()}>
+              <ListItemText primary="Login" />
+            </ListItem>
+            <ListItem button onClick={() => handleRegister()}>
+              <ListItemText primary="Register" />
             </ListItem>
           </>
         )}

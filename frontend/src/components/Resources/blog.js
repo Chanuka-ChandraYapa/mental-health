@@ -10,6 +10,7 @@ import {
   Box,
 } from "@mui/material";
 import parse from "html-react-parser";
+import { Link } from "react-router-dom";
 
 const MediumEmbed = () => {
   const [articles, setArticles] = useState([]);
@@ -75,13 +76,14 @@ const MediumEmbed = () => {
       minHeight="100vh"
       bgcolor="background.default"
       color="text.primary"
+      p={5}
     >
       <Grid container spacing={3}>
         {articles.map((article) => (
-          <Grid item xs={12} md={6} lg={4} key={article.guid}>
+          <Grid item xs={12} sm={6} md={6} lg={4} key={article.guid}>
             <Card
               style={{
-                height: "500px",
+                height: "300px",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
@@ -109,7 +111,7 @@ const MediumEmbed = () => {
                 </Typography>
                 <Typography
                   variant="body2"
-                  color="textSecondary"
+                  color="secondary"
                   style={{ fontSize: "14px", marginTop: "10px" }}
                 >
                   {article.author}
@@ -119,15 +121,19 @@ const MediumEmbed = () => {
                     href={article.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      textDecoration: "none",
-                      color: "text.primary",
-                      fontWeight: "bold",
-                      display: "inline-block",
-                      padding: "10px",
-                    }}
                   >
-                    Read More...
+                    <Typography
+                      component="href"
+                      color="primary"
+                      style={{
+                        textDecoration: "none",
+                        color: "primary.main",
+                        fontWeight: "bold",
+                        display: "inline-block",
+                      }}
+                    >
+                      Read More...
+                    </Typography>
                   </a>
                 </div>
               </CardContent>

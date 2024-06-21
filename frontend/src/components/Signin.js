@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/userActions";
-import { TextField, Button, Typography, Container, Box } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Import the hook
 import { GradientButton } from "./GradientButton";
 
@@ -12,6 +19,7 @@ const SignIn = () => {
   });
 
   const { email, password } = formData;
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use the hook
@@ -21,10 +29,12 @@ const SignIn = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     await dispatch(login({ email, password }));
     console.log("yay..", token);
     console.log(message);
+    setLoading(false);
     if (localStorage.getItem("token")) {
       navigate("/"); // Navigate to the home page
     }
@@ -101,8 +111,18 @@ const SignIn = () => {
             sx={{ marginBottom: 5 }}
           />
           <div align="center">
-            <GradientButton variant="contained" color="primary" type="submit">
-              Sign In
+            <GradientButton
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : null
+              }
+            >
+              {!loading ? "Sign In" : ""}
             </GradientButton>
             <Box
               sx={{

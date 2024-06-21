@@ -12,7 +12,8 @@ app.use(cors());
 
 app.get("/medium-feed", async (req, res) => {
   try {
-    const rssUrl = "https://medium.com/feed/@skeiiidameee"; // Replace with your Medium RSS feed URL
+    const rssUrl = "https://medium.com/feed/@riskaislmyh"; // Replace with your Medium RSS feed URL
+    // const rssUrl = "https://medium.com/feed/mindful-mental-health";
     const response = await axios.get(rssUrl, {
       headers: { Accept: "application/rss+xml" },
     });

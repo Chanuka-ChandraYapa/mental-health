@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
-import { Card, Typography, Box, Button } from "@mui/material";
+import { Card, Typography, Box, Button, useMediaQuery } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
@@ -11,6 +11,7 @@ import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfi
 import Questionaire from "./Questionaire";
 import { GradientButton } from "../GradientButton";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
@@ -18,55 +19,9 @@ const StyledRating = styled(Rating)(({ theme }) => ({
   },
 }));
 
-const customIcons = {
-  1: {
-    icon: (
-      <SentimentVeryDissatisfiedIcon
-        color="error"
-        style={{ fontSize: "7rem" }}
-      />
-    ),
-    label: "Very Dissatisfied",
-  },
-  2: {
-    icon: (
-      <SentimentDissatisfiedIcon color="error" style={{ fontSize: "7rem" }} />
-    ),
-    label: "Dissatisfied",
-  },
-  3: {
-    icon: (
-      <SentimentSatisfiedIcon color="warning" style={{ fontSize: "7rem" }} />
-    ),
-    label: "Neutral",
-  },
-  4: {
-    icon: (
-      <SentimentSatisfiedAltIcon color="success" style={{ fontSize: "7rem" }} />
-    ),
-    label: "Satisfied",
-  },
-  5: {
-    icon: (
-      <SentimentVerySatisfiedIcon
-        color="success"
-        style={{ fontSize: "7rem" }}
-      />
-    ),
-    label: "Very Satisfied",
-  },
-};
-
-function IconContainer(props) {
-  const { value, ...other } = props;
-  return <span {...other}>{customIcons[value].icon}</span>;
-}
-
-IconContainer.propTypes = {
-  value: PropTypes.number.isRequired,
-};
-
 export default function Mood() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [step, setStep] = React.useState(1);
   const navigate = useNavigate();
   const handleYes = () => {
@@ -101,6 +56,62 @@ export default function Mood() {
     }
   });
 
+  const customIcons = {
+    1: {
+      icon: (
+        <SentimentVeryDissatisfiedIcon
+          color="error"
+          style={{ fontSize: isMobile ? "4rem" : "7rem" }}
+        />
+      ),
+      label: "Very Dissatisfied",
+    },
+    2: {
+      icon: (
+        <SentimentDissatisfiedIcon
+          color="error"
+          style={{ fontSize: isMobile ? "4rem" : "7rem" }}
+        />
+      ),
+      label: "Dissatisfied",
+    },
+    3: {
+      icon: (
+        <SentimentSatisfiedIcon
+          color="warning"
+          style={{ fontSize: isMobile ? "4rem" : "7rem" }}
+        />
+      ),
+      label: "Neutral",
+    },
+    4: {
+      icon: (
+        <SentimentSatisfiedAltIcon
+          color="success"
+          style={{ fontSize: isMobile ? "4rem" : "7rem" }}
+        />
+      ),
+      label: "Satisfied",
+    },
+    5: {
+      icon: (
+        <SentimentVerySatisfiedIcon
+          color="success"
+          style={{ fontSize: isMobile ? "4rem" : "7rem" }}
+        />
+      ),
+      label: "Very Satisfied",
+    },
+  };
+
+  function IconContainer(props) {
+    const { value, ...other } = props;
+    return <span {...other}>{customIcons[value].icon}</span>;
+  }
+  IconContainer.propTypes = {
+    value: PropTypes.number.isRequired,
+  };
+
   return (
     <Box bgcolor="background.default" pb={10} minHeight="100vh">
       <Box
@@ -112,7 +123,12 @@ export default function Mood() {
         mb={4}
         padding={10}
       >
-        <Typography variant="h4" gutterBottom color="text.primary">
+        <Typography
+          variant="h4"
+          gutterBottom
+          color="text.primary"
+          align="center"
+        >
           How was your Day so far?
         </Typography>
         <StyledRating
@@ -121,7 +137,7 @@ export default function Mood() {
           IconContainerComponent={IconContainer}
           getLabelText={(value) => customIcons[value].label}
           highlightSelectedOnly
-          size="10rem"
+          fontSize="15rem"
         />
       </Box>
       {step === 1 ? (
