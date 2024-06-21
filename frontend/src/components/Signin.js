@@ -104,6 +104,28 @@ const SignIn = () => {
             <GradientButton variant="contained" color="primary" type="submit">
               Sign In
             </GradientButton>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+              align="center"
+              mt={2}
+            >
+              <Typography variant="body1" gutterBottom color="text.primary">
+                Don't have an account?
+              </Typography>
+              <Typography
+                variant="body1"
+                onClick={() => {
+                  navigate("/register");
+                }}
+                sx={{ marginLeft: 1, cursor: "pointer" }}
+                color="primary.main"
+              >
+                Register
+              </Typography>
+            </Box>
           </div>
         </form>
       </Container>
