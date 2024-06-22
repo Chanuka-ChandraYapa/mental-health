@@ -1,6 +1,20 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          input: {
+            "&:-webkit-autofill": {
+              WebkitBoxShadow: "0 0 0 100px #272727 inset",
+              WebkitTextFillColor: "default",
+            },
+          },
+        },
+      },
+    },
+  },
   palette: {
     mode: "dark",
     background: {

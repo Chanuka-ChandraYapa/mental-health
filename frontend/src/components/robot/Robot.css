@@ -1,0 +1,31 @@
+/* Add this CSS to your styles (e.g., in App.css or a similar file) */
+
+@keyframes slideInAndOut {
+    0% {
+      right: -200px; /* Start position (hidden) */
+
+    }
+    20% {
+      right: 0.25px;  /* Fully visible position */
+
+    }
+    80% {
+      right: 0.25px;  /* Fully visible position */
+
+    }
+    100% {
+      right: -200px; /* End position (hidden) */
+
+    }
+  }
+  
+  .robot {
+    z-index: 20;
+    position: fixed;
+    bottom: 12vh;
+    right: -200px; /* Initial position off-screen */
+    width: 10vh; /* Adjust as needed */
+    height: auto;
+    animation: slideInAndOut 10s ease-in-out forwards;
+  }
+  

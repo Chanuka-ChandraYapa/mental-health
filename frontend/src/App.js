@@ -16,6 +16,8 @@ import Mood from "./components/Mood/Mood";
 import Resources from "./components/Resources";
 import Blog from "./components/Resources/blog";
 import Recommendation from "./components/Recommendations/Recomm";
+import Footer from "./components/Footer";
+import RobotAnimation from "./components/robot/Robot";
 
 const App = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -24,6 +26,7 @@ const App = () => {
       <Provider store={store}>
         <Router>
           <NavBar />
+          <RobotAnimation />
           <Box mt={isMobile ? 5 : 5}></Box>
           <Routes>
             <Route path="/register" element={<Register />} />
@@ -36,6 +39,7 @@ const App = () => {
             <Route path="/resources/articles" element={<Blog />} />
             <Route path="/recommendations" element={<Recommendation />} />
           </Routes>
+          <Footer />
         </Router>
       </Provider>
     </ThemeProvider>

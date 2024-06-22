@@ -43,3 +43,7 @@ body {
 body, html {
   font-family: "Lato", sans-serif;
 }
+
+:root {
+  background-color: black;
+}
