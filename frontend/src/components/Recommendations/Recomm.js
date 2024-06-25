@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { ReactTyped } from "react-typed";
 import ReactMarkdown from "react-markdown";
+import Footer from "../Footer";
 
 const Recommendations = ({ userId }) => {
   const [loading, setLoading] = useState(true);
@@ -149,19 +150,22 @@ const Recommendations = ({ userId }) => {
 
 const Recommendation = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        backgroundColor: "background.default",
-        padding: 3,
-      }}
-    >
-      <Recommendations />
-    </Box>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          backgroundColor: "background.default",
+          padding: 3,
+        }}
+      >
+        <Recommendations />
+      </Box>
+      <Footer />
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ import Questionaire from "./Questionaire";
 import { GradientButton } from "../GradientButton";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import Footer from "../Footer";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
@@ -113,79 +114,82 @@ export default function Mood() {
   };
 
   return (
-    <Box bgcolor="background.default" pb={10} minHeight="100vh">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        mt={4}
-        mb={4}
-        padding={10}
-      >
-        <Typography
-          variant="h4"
-          gutterBottom
-          color="text.primary"
-          align="center"
+    <>
+      <Box bgcolor="background.default" pb={10} minHeight="100vh">
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          mt={4}
+          mb={4}
+          padding={10}
         >
-          How was your Day so far?
-        </Typography>
-        <StyledRating
-          name="highlight-selected-only"
-          defaultValue={3}
-          IconContainerComponent={IconContainer}
-          getLabelText={(value) => customIcons[value].label}
-          highlightSelectedOnly
-          fontSize="15rem"
-        />
+          <Typography
+            variant="h4"
+            gutterBottom
+            color="text.primary"
+            align="center"
+          >
+            How was your Day so far?
+          </Typography>
+          <StyledRating
+            name="highlight-selected-only"
+            defaultValue={3}
+            IconContainerComponent={IconContainer}
+            getLabelText={(value) => customIcons[value].label}
+            highlightSelectedOnly
+            fontSize="15rem"
+          />
+        </Box>
+        {step === 1 ? (
+          <>
+            <Typography
+              variant="h5"
+              gutterBottom
+              color="text.primary"
+              align="center"
+            >
+              Feel like answering some questions? We like to know you Better.
+            </Typography>
+            <div align="center">
+              <GradientButton
+                variant="contained"
+                color="primary"
+                onClick={handleYes}
+                sx={{ marginTop: 3 }}
+              >
+                Yes. Let's Go!
+              </GradientButton>
+            </div>
+          </>
+        ) : step === 2 ? (
+          <Questionaire setStep={setStep} />
+        ) : (
+          <>
+            <Typography
+              variant="h6"
+              gutterBottom
+              color="text.primary"
+              align="center"
+            >
+              Thank You for the responses. Would you like to check out our
+              Recommendations for you considering your responses?
+            </Typography>
+            <div align="center">
+              <GradientButton
+                variant="contained"
+                color="primary"
+                onClick={handleOk}
+                sx={{ marginTop: 3 }}
+              >
+                Ok
+              </GradientButton>
+            </div>
+          </>
+        )}
       </Box>
-      {step === 1 ? (
-        <>
-          <Typography
-            variant="h5"
-            gutterBottom
-            color="text.primary"
-            align="center"
-          >
-            Feel like answering some questions? We like to know you Better.
-          </Typography>
-          <div align="center">
-            <GradientButton
-              variant="contained"
-              color="primary"
-              onClick={handleYes}
-              sx={{ marginTop: 3 }}
-            >
-              Yes. Let's Go!
-            </GradientButton>
-          </div>
-        </>
-      ) : step === 2 ? (
-        <Questionaire setStep={setStep} />
-      ) : (
-        <>
-          <Typography
-            variant="h6"
-            gutterBottom
-            color="text.primary"
-            align="center"
-          >
-            Thank You for the responses. Would you like to check out our
-            Recommendations for you considering your responses?
-          </Typography>
-          <div align="center">
-            <GradientButton
-              variant="contained"
-              color="primary"
-              onClick={handleOk}
-              sx={{ marginTop: 3 }}
-            >
-              Ok
-            </GradientButton>
-          </div>
-        </>
-      )}
-    </Box>
+      <Footer />
+    </>
   );
 }

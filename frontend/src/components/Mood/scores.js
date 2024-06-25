@@ -1,0 +1,20 @@
+export const scores = {
+  0: { Happy: 3, Sad: -3, Anxious: -2, Depressed: -5 },
+  1: { Reading: 1, Exercising: 2, Socializing: 2, Working: 1 },
+  2: { "Not at all": 3, "A few times": 1, Often: -2, Always: -3 },
+  3: { Yes: 2, No: -2, Sometimes: 0 },
+  4: { "Very good": 3, Good: 2, Average: 0, Poor: -2 },
+  5: { Daily: 3, "A few times a week": 1, Rarely: -1, Never: -2 },
+  6: {
+    Meditation: 2,
+    Reading: 1,
+    "Watching TV": 0,
+    Exercising: 2,
+    Socializing: 2,
+  },
+  7: { Yes: -3, No: 3 },
+  8: { Excellent: 3, Good: 2, Fair: 0, Poor: -3 },
+  9: { Work: -2, Family: -1, Health: -3, Finances: -2, Relationships: -2 },
+  10: { Yes: 2, No: -2, Sometimes: 0 },
+  11: { Never: 3, Rarely: 2, Sometimes: 0, Often: -2 },
+};

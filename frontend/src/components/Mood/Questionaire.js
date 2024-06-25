@@ -13,9 +13,14 @@ import {
   Typography,
   Container,
   Fade,
+  Box,
+  Paper,
+  LinearProgress,
 } from "@mui/material";
 import { saveAnswers } from "./QuestionaireService";
 import { questions } from "./questions";
+import { scores } from "./scores";
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
 const Questionnaire = ({ setStep }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -23,6 +28,7 @@ const Questionnaire = ({ setStep }) => {
   const [currentAnswer, setCurrentAnswer] = useState([]);
   const [fadeIn, setFadeIn] = useState(true);
   const [isAnswerValid, setIsAnswerValid] = useState(false);
+  const [moodRating, setMoodRating] = useState(null);
 
   useEffect(() => {
     setIsAnswerValid(currentAnswer.length > 0);
@@ -54,9 +60,42 @@ const Questionnaire = ({ setStep }) => {
       setFadeIn(true);
     }, 500);
   };
+  const calculateMoodRating = (answers) => {
+    let totalScore = 0;
+    let maxScore = 0;
+    let minScore = 0;
+
+    answers.forEach((answerObj, index) => {
+      const { response, multiple } = answerObj;
+      if (multiple) {
+        response.forEach((answer) => {
+          totalScore += scores[index][answer];
+        });
+
+        maxScore += Object.values(scores[index])
+          .filter((value) => value > 0)
+          .reduce((acc, value) => acc + value, 0);
+
+        minScore += Object.values(scores[index])
+          .filter((value) => value < 0)
+          .reduce((acc, value) => acc + value, 0);
+      } else {
+        totalScore += scores[index][response[0]];
+
+        maxScore += Math.max(0, ...Object.values(scores[index]));
+        minScore += Math.min(0, ...Object.values(scores[index]));
+      }
+    });
+
+    // Scale totalScore to a percentage between 0 and 100
+    const scaledScore = ((totalScore - minScore) / (maxScore - minScore)) * 100;
+    return scaledScore;
+  };
 
   const handleSubmit = async () => {
     try {
+      const rating = calculateMoodRating(answers);
+      setMoodRating(rating);
       await saveAnswers(answers);
       alert("Answers submitted successfully");
       setStep(3);
@@ -91,6 +130,14 @@ const Questionnaire = ({ setStep }) => {
     } else if (currentQuestion >= questions.length - 1 && isAnswerValid) {
       handleSubmit();
     }
+  };
+
+  const getProgressColor = (rating) => {
+    if (rating >= 75) return "#0bdc84";
+    if (rating >= 65) return "#89f0c3";
+    if (rating >= 50) return "#FED053";
+    if (rating >= 25) return "#f77f00";
+    return "#d62828";
   };
   return (
     <Container maxWidth="md" sx={{ marginTop: 4 }}>
@@ -194,6 +241,50 @@ const Questionnaire = ({ setStep }) => {
               </FormControl>
             </CardContent>
           </Card>
+          {moodRating !== null && (
+            <Box sx={{ marginTop: 4 }}>
+              <Paper elevation={3} sx={{ padding: 2 }}>
+                <Typography variant="h5" mb="2vh" gutterBottom>
+                  Your Mood Rating: {moodRating.toFixed(2)} %
+                </Typography>
+                <LinearProgress
+                  variant="determinate"
+                  value={moodRating}
+                  sx={{
+                    height: 10,
+                    borderRadius: 5,
+                    backgroundColor: "lightgray",
+                    "& .MuiLinearProgress-bar": {
+                      backgroundColor: getProgressColor(moodRating),
+                    },
+                  }}
+                />
+                <div align="center">
+                  <Gauge
+                    value={moodRating.toFixed(2)}
+                    width={200}
+                    height={200}
+                    startAngle={-110}
+                    endAngle={110}
+                    sx={{
+                      [`& .${gaugeClasses.valueArc}`]: {
+                        fill: `${getProgressColor(moodRating)}`,
+                      },
+                    }}
+                    text={({ value, valueMax }) => `${value} / ${valueMax}`}
+                  />
+                </div>
+                <Typography variant="body1" align="center">
+                  {moodRating >= 75
+                    ? "We are happy that You are feeling great! 💚"
+                    : moodRating >= 50
+                    ? "You are doing okay. Keep it up 💛"
+                    : "We all have bad days. You might need some support. But remember, It too shall pass ❤️"}
+                </Typography>
+                {/* <Gauge width={100} height={100} value={60} /> */}
+              </Paper>
+            </Box>
+          )}
         </div>
       </Fade>
     </Container>

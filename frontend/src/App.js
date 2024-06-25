@@ -16,7 +16,6 @@ import Mood from "./components/Mood/Mood";
 import Resources from "./components/Resources";
 import Blog from "./components/Resources/blog";
 import Recommendation from "./components/Recommendations/Recomm";
-import Footer from "./components/Footer";
 import RobotAnimation from "./components/robot/Robot";
 
 const App = () => {
@@ -39,7 +38,6 @@ const App = () => {
             <Route path="/resources/articles" element={<Blog />} />
             <Route path="/recommendations" element={<Recommendation />} />
           </Routes>
-          <Footer />
         </Router>
       </Provider>
     </ThemeProvider>

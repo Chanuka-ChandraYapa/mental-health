@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Post from "./Post";
 import { useSelector } from "react-redux";
+import Footer from "../Footer";
 
 const Forum = () => {
   const { user, message, token } = useSelector((state) => state.user);
@@ -90,39 +91,42 @@ const Forum = () => {
   }
 
   return (
-    <Box bgcolor="background.default" color="text.primary" pt={5}>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Community Forum
-      </Typography>
-      {posts.map((post, index) => (
-        <Post key={index} post={post} />
-      ))}
-      <Card sx={{ marginBottom: 2 }}>
-        <CardContent>
-          <TextField
-            label="Title"
-            name="title"
-            value={newPost.title}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Content"
-            name="content"
-            value={newPost.content}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            multiline
-            rows={4}
-          />
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Post
-          </Button>
-        </CardContent>
-      </Card>
-    </Box>
+    <>
+      <Box bgcolor="background.default" color="text.primary" pt={5}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Community Forum
+        </Typography>
+        {posts.map((post, index) => (
+          <Post key={index} post={post} />
+        ))}
+        <Card sx={{ marginBottom: 2 }}>
+          <CardContent>
+            <TextField
+              label="Title"
+              name="title"
+              value={newPost.title}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Content"
+              name="content"
+              value={newPost.content}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              multiline
+              rows={4}
+            />
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Post
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
+      <Footer />
+    </>
   );
 };
 
