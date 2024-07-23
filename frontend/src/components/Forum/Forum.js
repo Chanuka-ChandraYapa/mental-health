@@ -12,6 +12,7 @@ import {
 import Post from "./Post";
 import { useSelector } from "react-redux";
 import Footer from "../Footer";
+import { useNavigate } from "react-router-dom";
 
 const Forum = () => {
   const { user, message, token } = useSelector((state) => state.user);
@@ -23,6 +24,7 @@ const Forum = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -54,6 +56,10 @@ const Forum = () => {
         setPosts([...posts, response.data]);
         setNewPost({ title: "", content: "", userId: "" });
       });
+  };
+
+  const handlePostClick = (id) => {
+    navigate(`/support/${id}`);
   };
 
   if (loading) {
@@ -96,8 +102,24 @@ const Forum = () => {
         <Typography variant="h4" component="h2" gutterBottom>
           Community Forum
         </Typography>
-        {posts.map((post, index) => (
+        {/* {posts.map((post, index) => (
           <Post key={index} post={post} />
+        ))} */}
+        {posts.map((post, index) => (
+          <Card
+            key={index}
+            sx={{ marginBottom: 2 }}
+            onClick={() => handlePostClick(post._id)}
+          >
+            <CardContent>
+              <Typography variant="h5" component="h3" color="primary.main">
+                {post.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" mt={2}>
+                {post.content}
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
         <Card sx={{ marginBottom: 2 }}>
           <CardContent>

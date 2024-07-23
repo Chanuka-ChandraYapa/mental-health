@@ -32,7 +32,12 @@ const SignIn = () => {
   const onSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    await dispatch(login({ email, password }));
+    try {
+      await dispatch(login({ email, password }));
+    } catch (e) {
+      // setLoading(false);
+    }
+
     console.log("yay..", token);
     console.log(message);
     setLoading(false);

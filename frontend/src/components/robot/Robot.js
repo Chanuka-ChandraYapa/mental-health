@@ -7,8 +7,8 @@ const RobotAnimation = () => {
 
   useEffect(() => {
     const randomInterval = () => {
-      // Generate a random interval between 30 seconds to 2 minutes
-      return Math.floor(Math.random() * (120000 - 30000 + 1)) + 30000;
+      // Generate a random interval between 2 minutes to 3 minutes
+      return Math.floor(Math.random() * (180000 - 120000 + 1)) + 120000;
     };
 
     const showRobotAtRandomTimes = () => {

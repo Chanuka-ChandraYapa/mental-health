@@ -17,6 +17,8 @@ import Resources from "./components/Resources";
 import Blog from "./components/Resources/blog";
 import Recommendation from "./components/Recommendations/Recomm";
 import RobotAnimation from "./components/robot/Robot";
+import PostDetails from "./components/Forum/PostDetails";
+import EditPage from "./components/Resources/editor";
 
 const App = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -33,10 +35,12 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/support" element={<Forum />} />
+            <Route path="/support/:id" element={<PostDetails />} />
             <Route path="/mood" element={<Mood />} />
             <Route path="/resources/videos" element={<Resources />} />
             <Route path="/resources/articles" element={<Blog />} />
             <Route path="/recommendations" element={<Recommendation />} />
+            <Route path="/edit" element={<EditPage />} />
           </Routes>
         </Router>
       </Provider>

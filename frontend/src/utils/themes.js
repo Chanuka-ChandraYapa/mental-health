@@ -18,6 +18,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     background: {
+      main: "#272727",
       default: "#121212", // Set a dark background color
       paper: "#1e1e1e", // Set a slightly lighter color for paper surfaces
     },
