@@ -11,33 +11,51 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GradientButton } from "./GradientButton";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const validationSchema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Password must contain at least one special character"
+    ),
+});
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const { name, email, password } = formData;
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Use the hook
+  const navigate = useNavigate();
   const { token, message } = useSelector((state) => state.user);
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onFormSubmit = async (data) => {
     setLoading(true);
-    await dispatch(register({ name, email, password }));
-    console.log(token);
-    console.log(message);
+    await dispatch(register(data));
     setLoading(false);
+
     if (localStorage.getItem("token")) {
-      navigate("/login"); // Navigate to the home page
+      navigate("/login");
     }
   };
 
@@ -57,7 +75,7 @@ const Register = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.9)", // Change this to adjust the overlay opacity
+            backgroundColor: "rgba(0, 0, 0, 0.9)",
             zIndex: 1,
           },
         }}
@@ -83,43 +101,56 @@ const Register = () => {
           >
             Register
           </Typography>
-          <form
-            onSubmit={onSubmit}
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              label="Name"
-              variant="outlined"
-              fullWidth
+          <form onSubmit={handleSubmit(onFormSubmit)}>
+            <Controller
               name="name"
-              value={name}
-              onChange={onChange}
-              sx={{ marginBottom: 2 }}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.name}
+                  helperText={errors.name ? errors.name.message : ""}
+                  sx={{ marginBottom: 2 }}
+                />
+              )}
             />
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              type="email"
+            <Controller
               name="email"
-              value={email}
-              onChange={onChange}
-              sx={{ marginBottom: 2 }}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  type="email"
+                  error={!!errors.email}
+                  helperText={errors.email ? errors.email.message : ""}
+                  sx={{ marginBottom: 2 }}
+                />
+              )}
             />
-            <TextField
-              label="Password"
-              variant="outlined"
-              fullWidth
-              type="password"
+            <Controller
               name="password"
-              value={password}
-              onChange={onChange}
-              sx={{ marginBottom: 5 }}
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  type="password"
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password.message : ""}
+                  sx={{ marginBottom: 5 }}
+                />
+              )}
             />
             <div align="center">
               <GradientButton

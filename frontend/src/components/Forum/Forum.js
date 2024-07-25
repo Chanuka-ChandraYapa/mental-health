@@ -13,6 +13,7 @@ import Post from "./Post";
 import { useSelector } from "react-redux";
 import Footer from "../Footer";
 import { useNavigate } from "react-router-dom";
+import config from "../../config";
 
 const Forum = () => {
   const { user, message, token } = useSelector((state) => state.user);
@@ -28,7 +29,7 @@ const Forum = () => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:3002/posts/getPosts").then((response) => {
+      axios.get(`${config.forum}/posts/getPosts`).then((response) => {
         setPosts(response.data);
         console.log(response.data);
         setLoading(false);
@@ -51,7 +52,7 @@ const Forum = () => {
     console.log("this is", userId);
 
     axios
-      .post("http://localhost:3002/posts/addPosts", { ...newPost, userId })
+      .post(`${config.forum}/posts/addPosts`, { ...newPost, userId })
       .then((response) => {
         setPosts([...posts, response.data]);
         setNewPost({ title: "", content: "", userId: "" });

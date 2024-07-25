@@ -28,6 +28,10 @@ const AnswerSchema = new mongoose.Schema({
       },
     },
   ],
+  rating: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,

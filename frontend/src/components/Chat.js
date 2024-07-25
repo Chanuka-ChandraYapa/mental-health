@@ -14,6 +14,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@emotion/react";
 import { v4 as uuidv4 } from "uuid";
+import config from "../config";
 
 const Chat = () => {
   const [userInput, setUserInput] = useState("");
@@ -29,8 +30,9 @@ const Chat = () => {
     if (userInput !== "") {
       setLoading(true);
       const response = await fetch(
-        "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+        // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
         // "http://localhost:5000/chatbot",
+        `${config.chatbot}`,
         {
           method: "POST",
           headers: {

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./utils/themes"; // Import your custom theme
+import useCustomTheme from "./utils/customTheme";
 import Register from "./components/Register";
 import SignIn from "./components/Signin";
 import Home from "./components/Home";
@@ -19,9 +20,12 @@ import Recommendation from "./components/Recommendations/Recomm";
 import RobotAnimation from "./components/robot/Robot";
 import PostDetails from "./components/Forum/PostDetails";
 import EditPage from "./components/Resources/editor";
+import TherapistMap from "./components/Therapists/Therapists";
 
 const App = () => {
+  // const { theme } = useCustomTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -41,6 +45,7 @@ const App = () => {
             <Route path="/resources/articles" element={<Blog />} />
             <Route path="/recommendations" element={<Recommendation />} />
             <Route path="/edit" element={<EditPage />} />
+            <Route path="/therapists" element={<TherapistMap />} />
           </Routes>
         </Router>
       </Provider>

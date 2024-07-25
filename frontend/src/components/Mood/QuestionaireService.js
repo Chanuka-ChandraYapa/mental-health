@@ -1,9 +1,10 @@
 // src/services/questionnaireService.js
 import axios from "axios";
+import config from "../../config";
 
-const API_URL = "https://mental-health-mood-tracker.onrender.com/api"; // Update with your backend URL
+const API_URL = `${config.moodtracker}`; // Update with your backend URL
 
-export const saveAnswers = async (answers) => {
+export const saveAnswers = async (answers, rating) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No token found");
 
@@ -16,7 +17,7 @@ export const saveAnswers = async (answers) => {
   try {
     const response = await axios.post(
       `${API_URL}/answers`,
-      { answers },
+      { answers, rating },
       config
     );
     return response.data;

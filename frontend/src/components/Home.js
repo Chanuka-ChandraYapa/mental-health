@@ -13,6 +13,7 @@ import {
 import { GradientButton } from "./GradientButton";
 import Footer from "./Footer";
 import RandomQuote from "./Quotes";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Home = () => {
   const { token } = useSelector((state) => state.user);
@@ -70,8 +71,8 @@ const Home = () => {
               fontSize={30}
             >
               Our platform is designed to provide comprehensive support and
-              guidance for your mental well-being. Here are the key features and
-              services we offer.
+              guidance for your mental well-being. Scrool Down to explore the
+              key features and services we offer.
             </Typography>
 
             {!token && (
@@ -106,7 +107,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/mood.jpeg"
                       alt="Mood"
                       style={{
@@ -139,7 +140,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/recomm.jpg"
                       alt="Mood"
                       style={{
@@ -172,7 +173,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/resource.jpg"
                       alt="Mood"
                       style={{
@@ -205,7 +206,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/sup.jpeg"
                       alt="Mood"
                       style={{
@@ -238,7 +239,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/therapist.jpeg"
                       alt="Mood"
                       style={{
@@ -271,7 +272,7 @@ const Home = () => {
                   }}
                 >
                   <div style={{ height: "300px", overflow: "hidden" }}>
-                    <img
+                    <LazyLoadImage
                       src="/chat.jpeg"
                       alt="Mood"
                       style={{

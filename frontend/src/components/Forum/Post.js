@@ -12,6 +12,7 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import config from "../../config";
 
 const Post = ({ post }) => {
   const [replies, setReplies] = useState(post.replies || []);
@@ -27,10 +28,7 @@ const Post = ({ post }) => {
   const handleReplySubmit = async () => {
     const reply = { content: newReply, userId: user.id, postId: post._id };
     try {
-      const response = await axios.post(
-        "http://localhost:3002/posts/reply",
-        reply
-      );
+      const response = await axios.post(`${config.forum}/posts/reply`, reply);
       const updatedPost = response.data;
       setReplies(updatedPost.replies);
       setNewReply("");
@@ -42,9 +40,7 @@ const Post = ({ post }) => {
   const handleLike = async () => {
     try {
       const response = await axios.post(
-        liked
-          ? "http://localhost:3002/posts/unlike"
-          : "http://localhost:3002/posts/like",
+        liked ? `${config.forum}/posts/unlike` : `${config.forum}/posts/like`,
         { postId: post._id, userId: user.id }
       );
       setLikes(response.data.likes);
@@ -56,7 +52,7 @@ const Post = ({ post }) => {
 
   const handleReplyLike = async (replyId) => {
     try {
-      const response = await axios.post("http://localhost:3002/replies/like", {
+      const response = await axios.post(`${config.forum}/replies/like`, {
         replyId,
         userId: user.id,
       });

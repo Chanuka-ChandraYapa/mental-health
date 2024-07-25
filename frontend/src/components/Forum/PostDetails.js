@@ -15,6 +15,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useSelector } from "react-redux";
 import Post from "./Post";
 import Footer from "../Footer";
+import config from "../../config";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -29,7 +30,7 @@ const PostDetails = () => {
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:3002/posts/getPosts").then((response) => {
+      axios.get(`${config.forum}/posts/getPosts`).then((response) => {
         setPosts(response.data);
         console.log(response.data);
         setLoading(false);

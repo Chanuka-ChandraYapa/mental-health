@@ -13,6 +13,11 @@ import { GradientButton } from "../GradientButton";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import Footer from "../Footer";
+import MoodRatingGraph from "./Graph";
+import MoodHistoryGraph2 from "./Graph2";
+import MoodRatingPieChart from "./Graph3";
+import Journal from "./Journal";
+import useCustomTheme from "../../utils/customTheme";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
@@ -22,6 +27,7 @@ const StyledRating = styled(Rating)(({ theme }) => ({
 
 export default function Mood() {
   const theme = useTheme();
+  const { selectedRating, setSelectedRating } = useCustomTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [step, setStep] = React.useState(1);
   const navigate = useNavigate();
@@ -112,6 +118,9 @@ export default function Mood() {
   IconContainer.propTypes = {
     value: PropTypes.number.isRequired,
   };
+  const handleRatingChange = (event, newValue) => {
+    setSelectedRating(newValue);
+  };
 
   return (
     <>
@@ -140,6 +149,7 @@ export default function Mood() {
             getLabelText={(value) => customIcons[value].label}
             highlightSelectedOnly
             fontSize="15rem"
+            onChange={handleRatingChange}
           />
         </Box>
         {step === 1 ? (
@@ -153,14 +163,14 @@ export default function Mood() {
               Feel like answering some questions? We like to know you Better.
             </Typography>
             <div align="center">
-              <GradientButton
+              <Button
                 variant="contained"
                 color="primary"
                 onClick={handleYes}
                 sx={{ marginTop: 3 }}
               >
                 Yes. Let's Go!
-              </GradientButton>
+              </Button>
             </div>
           </>
         ) : step === 2 ? (
@@ -188,6 +198,8 @@ export default function Mood() {
             </div>
           </>
         )}
+        <MoodRatingGraph />
+        <Journal />
       </Box>
       <Footer />
     </>

@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Box, TextField, Button } from "@mui/material";
 import axios from "axios";
+import config from "../../config";
 
 const EditPage = () => {
   const [title, setTitle] = useState("");
@@ -21,7 +22,7 @@ const EditPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3004/createArticle",
+        `${config.resources}/createArticle`,
         newArticle
       );
       //   onArticleAdded(response.data);

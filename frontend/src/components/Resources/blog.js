@@ -30,6 +30,7 @@ import Fade from "@mui/material/Fade";
 import { styled } from "@mui/material/styles";
 import { tooltipClasses } from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
+import config from "../../config";
 
 const MediumEmbed = () => {
   const [articles, setArticles] = useState([]);
@@ -47,7 +48,7 @@ const MediumEmbed = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get("http://localhost:3004/medium-feed");
+        const response = await axios.get(`${config.resources}/medium-feed`);
         setArticles(response.data.items);
         setLoading(false);
       } catch (error) {
@@ -119,7 +120,7 @@ const MediumEmbed = () => {
   const handleSubmit = async () => {
     if (option === "post-url") {
       try {
-        const response = await axios.get("http://localhost:3004/extract", {
+        const response = await axios.get(`${config.resources}/extract`, {
           params: { url },
         });
         handleDialogClose();
@@ -136,7 +137,7 @@ const MediumEmbed = () => {
 
   const handleSummary = async (url) => {
     try {
-      const response = await axios.get("http://localhost:3004/summary", {
+      const response = await axios.get(`${config.resources}/summary`, {
         params: { url },
       });
       articles.map((article) => {

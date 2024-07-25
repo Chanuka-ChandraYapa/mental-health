@@ -17,6 +17,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api", answerRoutes);
+app.use("/api/journal", require("./routes/journalRoutes"));
 
 const PORT = process.env.PORT || 3003;
 

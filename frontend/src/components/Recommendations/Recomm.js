@@ -13,16 +13,17 @@ import {
 import { ReactTyped } from "react-typed";
 import ReactMarkdown from "react-markdown";
 import Footer from "../Footer";
+import config from "../../config";
 
 const Recommendations = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState("");
   const [error, setError] = useState(null);
-  const API_URL = "https://mental-health-mood-tracker.onrender.com/api";
+  const API_URL = `${config.moodtracker}`;
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No token found");
 
-  const config = {
+  const configs = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -35,7 +36,7 @@ const Recommendations = ({ userId }) => {
     console.log(localStorage.getItem("recommondations"));
     const fetchRecommendations = async () => {
       try {
-        const response = await axios.get(`${API_URL}/recommendations`, config);
+        const response = await axios.get(`${API_URL}/recommendations`, configs);
         setRecommendations(response.data.recommendations);
         setDisplayText(response.data.recommendations);
         console.log(response.data.recommendations);

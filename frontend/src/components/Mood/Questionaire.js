@@ -96,9 +96,9 @@ const Questionnaire = ({ setStep }) => {
     try {
       const rating = calculateMoodRating(answers);
       setMoodRating(rating);
-      await saveAnswers(answers);
+      await saveAnswers(answers, rating);
       alert("Answers submitted successfully");
-      setStep(3);
+      // setStep(3);
       localStorage.setItem("step", 3);
       localStorage.setItem("setupTime", new Date().getTime());
     } catch (error) {

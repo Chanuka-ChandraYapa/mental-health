@@ -1,13 +1,14 @@
 const Answer = require("../models/Answers");
 
 exports.saveAnswers = async (req, res) => {
-  const { answers } = req.body;
+  const { answers, rating } = req.body;
   const userId = req.user.id; // Assumes `auth` middleware attaches user to req
 
   try {
     const newAnswers = new Answer({
       userId,
       answers,
+      rating,
     });
 
     const savedAnswers = await newAnswers.save();
