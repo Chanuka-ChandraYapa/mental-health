@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Link as MuiLink,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 // import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -115,6 +116,7 @@ const Chat = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <img
@@ -122,6 +124,12 @@ const Chat = () => {
             style={{ width: "200px", height: "200px" }}
             alt="Robot"
           />
+          <Alert
+            severity="warning"
+            sx={{ marginBottom: "20px", marginTop: "20px" }}
+          >
+            I may make mistakes. Please use me with care.😊
+          </Alert>
         </Box>
         {chatHistory.map((chat, index) => (
           <Box

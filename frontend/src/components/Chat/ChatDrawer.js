@@ -26,7 +26,7 @@ const ChatDrawer = () => {
         color="primary"
         aria-label="chat"
         onClick={toggleDrawer(true)}
-        sx={{ position: "fixed", bottom: 16, right: 16 }}
+        sx={{ position: "fixed", bottom: "20px", right: "20px" }}
       >
         <ChatIcon />
       </Fab>

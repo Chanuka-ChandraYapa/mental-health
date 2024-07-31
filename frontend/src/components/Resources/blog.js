@@ -363,7 +363,7 @@ const MediumEmbed = () => {
       <Fab
         color="primary"
         aria-label="add"
-        style={{ position: "fixed", bottom: "20px", right: "20px" }}
+        style={{ position: "fixed", bottom: "90px", right: "20px" }}
         onClick={handleDialogOpen}
       >
         <AddIcon />
