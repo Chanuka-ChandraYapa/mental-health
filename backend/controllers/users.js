@@ -23,7 +23,10 @@ exports.registerUser = async (req, res) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({
+          token,
+          user: { id: user.id, name: user.name, email: user.email },
+        });
       }
     );
   } catch (err) {
@@ -32,7 +35,7 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, sessionId } = req.body;
 
   try {
     const user = await User.findOne({ email });
@@ -48,7 +51,40 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name } });
+        res.json({
+          token,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            bio: user.bio,
+            interests: user.interests,
+            personality: user.personality,
+          },
+        });
+      }
+    );
+    const response = await fetch(
+      // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      "http://127.0.0.1:5000/chatbot",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message:
+            "Use these details to interact with the user more personally. Just save following data for future reference. if they ask you respond with this details" +
+            "Name : " +
+            user.name +
+            "user bio : " +
+            user.bio +
+            "user personality type : " +
+            user.personality +
+            "user interests : " +
+            user.interests,
+          sessionId,
+        }),
       }
     );
   } catch (err) {
@@ -86,6 +122,27 @@ exports.getUserInfo = async (req, res) => {
     console.log("I have been summoned", user);
     res.json(user);
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// New function to update user information
+exports.updateUserInfo = async (req, res) => {
+  const { userId, name, personality, bio, interests } = req.body;
+  console.log(userId, name, personality, bio, interests);
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, personality, bio, interests },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!updatedUser) return res.status(404).json({ msg: "User not found" });
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 };

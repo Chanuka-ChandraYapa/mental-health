@@ -22,7 +22,8 @@ const userReducer = (state = initialState, action) => {
     case USER_REGISTER_SUCCESS:
     case USER_LOGIN_SUCCESS:
       localStorage.setItem("token", payload.token);
-      localStorage.setItem("user", payload.user);
+      localStorage.setItem("user", JSON.stringify(payload.user));
+
       return {
         ...state,
         ...payload,

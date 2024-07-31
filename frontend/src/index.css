@@ -55,3 +55,13 @@ body, html {
 .gm-style .gm-style-iw-t::after { 
   background: rgb(69, 67, 67);
 }
+/* Hide scrollbar for Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.scroll-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

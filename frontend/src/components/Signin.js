@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Import the hook
 import { GradientButton } from "./GradientButton";
+import { v4 as uuidv4 } from "uuid";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -32,12 +33,15 @@ const SignIn = () => {
   const onSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+    const sessionId = localStorage.getItem("sessionId") || uuidv4();
+    if (!localStorage.getItem("sessionId")) {
+      localStorage.setItem("sessionId", sessionId);
+    }
     try {
-      await dispatch(login({ email, password }));
+      await dispatch(login({ email, password, sessionId }));
     } catch (e) {
       // setLoading(false);
     }
-
     console.log("yay..", token);
     console.log(message);
     setLoading(false);

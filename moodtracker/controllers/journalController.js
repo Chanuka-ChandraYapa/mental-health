@@ -1,8 +1,9 @@
 const Journal = require("../models/Journal");
 
 exports.saveJournal = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const newEntry = new Journal({ entry: req.body.entry });
+    const newEntry = new Journal({ userId, entry: req.body.entry });
     await newEntry.save();
     res.status(201).send(newEntry);
   } catch (error) {
@@ -12,7 +13,9 @@ exports.saveJournal = async (req, res) => {
 
 exports.getJournal = async (req, res) => {
   try {
-    const entries = await Journal.find().sort({ date: -1 });
+    const entries = await Journal.find({ userId: req.user.id }).sort({
+      date: -1,
+    });
     res.status(200).send(entries);
   } catch (error) {
     res.status(500).send(error);

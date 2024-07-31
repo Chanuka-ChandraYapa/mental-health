@@ -14,9 +14,9 @@ import {
 import ReactMarkdown from "react-markdown";
 import { useTheme } from "@emotion/react";
 import { v4 as uuidv4 } from "uuid";
-import config from "../config";
+import config from "../../config";
 
-const Chat = () => {
+const ChatPage = () => {
   const [userInput, setUserInput] = useState("");
   const [chatHistory, setChatHistory] = useState(
     localStorage.getItem("chatHistory")
@@ -214,4 +214,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatPage;

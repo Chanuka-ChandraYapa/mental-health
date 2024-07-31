@@ -50,8 +50,16 @@ const addReply = async (req, res) => {
 
     post.replies.push({ content, userId, userName });
     await post.save();
+    // Send notification to the original post writer
+    const postUserId = post.userId;
+    const notificationMessage = `Your post "${post.title}" has a new reply.`;
+    await axios.post("http://localhost:4000/send-notification", {
+      message: notificationMessage,
+      userId: postUserId,
+    });
     res.json(post);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 };

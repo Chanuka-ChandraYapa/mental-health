@@ -17,7 +17,8 @@ import config from "../../config";
 const Post = ({ post }) => {
   const [replies, setReplies] = useState(post.replies || []);
   const [newReply, setNewReply] = useState("");
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
+  const user = JSON.parse(localStorage.getItem("user"));
   const [likes, setLikes] = useState(post.likes || 0);
   const [liked, setLiked] = useState(false); // Track if the user has liked the post
 

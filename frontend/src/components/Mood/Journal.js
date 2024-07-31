@@ -101,6 +101,12 @@ const Journal = () => {
   const currentEntries = entries.slice(indexOfFirstEntry, indexOfLastEntry);
   const totalPages = Math.ceil(entries.length / entriesPerPage);
 
+  // Check if there is an entry for today
+  const today = new Date().toISOString().split("T")[0];
+  const hasEntryForToday = entries.some(
+    (entry) => entry.date.split("T")[0] === today
+  );
+
   return (
     <Container maxWidth="md" sx={{ padding: "20px", minHeight: "100vh" }}>
       <Paper sx={{ padding: "20px", marginBottom: "20px" }}>
@@ -137,37 +143,50 @@ const Journal = () => {
           </form>
         )}
         <Divider />
-        <List>
-          {currentEntries.map((entry) => (
-            <ListItem key={entry._id} alignItems="flex-start">
-              <ListItemText
-                primary={entry.entry}
-                secondary={new Date(entry.date).toLocaleString()}
-                sx={{ wordWrap: "break-word" }}
+        {entries.length === 0 ? (
+          <Typography variant="body1" sx={{ marginTop: "20px" }}>
+            Looks like a Deserted. Let's Fill it up.
+          </Typography>
+        ) : (
+          <>
+            {!hasEntryForToday && (
+              <Typography variant="body1" sx={{ marginTop: "20px" }}>
+                What did you do today?
+              </Typography>
+            )}
+            <List>
+              {currentEntries.map((entry) => (
+                <ListItem key={entry._id} alignItems="flex-start">
+                  <ListItemText
+                    primary={entry.entry}
+                    secondary={new Date(entry.date).toLocaleString()}
+                    sx={{ wordWrap: "break-word" }}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleDelete(entry._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+            {totalPages > 1 && (
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                sx={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleDelete(entry._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-        {totalPages > 1 && (
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            sx={{
-              marginTop: "20px",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          />
+            )}
+          </>
         )}
       </Paper>
     </Container>

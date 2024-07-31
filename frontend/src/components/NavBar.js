@@ -14,12 +14,15 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
+  Badge,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const NavBar = () => {
+const NavBar = ({ unreadCount, setUnreadCount }) => {
   const [value, setValue] = useState(0);
   const navigate = useNavigate(); // Use the hook
   const { token } = useSelector((state) => state.user);
@@ -68,6 +71,13 @@ const NavBar = () => {
         break;
       case 6:
         navigate("/therapists");
+        break;
+      case 7:
+        navigate("/profile");
+        break;
+      case 8:
+        navigate("/notifications");
+        setUnreadCount(0);
         break;
       default:
         break;
@@ -152,6 +162,12 @@ const NavBar = () => {
             <ListItem button onClick={() => handleChange(null, 6)}>
               <ListItemText primary="Therapists" />
             </ListItem>
+            <ListItem button onClick={() => handleChange(null, 7)}>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem button onClick={() => handleChange(null, 8)}>
+              <ListItemText primary="Notifications" />
+            </ListItem>
             <ListItem button onClick={() => handleLogOut()}>
               <ListItemText primary="Log Out" />
             </ListItem>
@@ -227,6 +243,20 @@ const NavBar = () => {
               )}
               {token && <Tab label="Support" />}
               {token && <Tab label="Therapists" />}
+              {/* {token && <Tab label="Profile" />} */}
+              {token && (
+                <Tab icon={<AccountCircleIcon />} aria-label="Profile" />
+              )}
+              {token && (
+                <Tab
+                  icon={
+                    <Badge badgeContent={unreadCount} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  }
+                  arial-label="Notifications"
+                />
+              )}
             </Tabs>
             {token ? (
               <Button color="inherit" onClick={handleLogOut}>

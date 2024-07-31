@@ -29,6 +29,14 @@ const Footer = () => {
               <Link href="#" underline="hover" color="primary" sx={{ ml: 2 }}>
                 Contact
               </Link>
+              <Link
+                href="/moderator"
+                underline="hover"
+                color="primary"
+                sx={{ ml: 2 }}
+              >
+                Join us
+              </Link>
             </Typography>
           </Grid>
         </Grid>
