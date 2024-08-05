@@ -17,6 +17,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import config from "../../config";
+
+const API_URL = `${config.moodtracker}`;
 
 const Journal = () => {
   const [journalEntry, setJournalEntry] = useState("");
@@ -39,10 +42,7 @@ const Journal = () => {
       },
     };
     try {
-      const response = await axios.get(
-        "http://localhost:3003/api/journal",
-        config
-      );
+      const response = await axios.get(`${API_URL}/journal`, config);
       setEntries(response.data);
     } catch (error) {
       console.error("Error fetching entries", error);
