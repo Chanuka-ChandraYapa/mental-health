@@ -143,8 +143,8 @@ exports.getRecommendations = async (req, res) => {
     // const answers = response.data;
     // console.log(answers.pop());
     const response = await fetch(
-      // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
-      "http://127.0.0.1:5000/chatbot",
+      "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      // "http://127.0.0.1:5000/chatbot",
       {
         method: "POST",
         headers: {
