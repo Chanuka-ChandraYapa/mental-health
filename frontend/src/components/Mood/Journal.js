@@ -61,7 +61,7 @@ const Journal = () => {
     };
     try {
       await axios.post(
-        "http://localhost:3003/api/journal",
+        `${API_URL}/journal`,
         {
           entry: journalEntry,
         },
@@ -84,7 +84,7 @@ const Journal = () => {
       },
     };
     try {
-      await axios.delete(`http://localhost:3003/api/journal/${id}`, config);
+      await axios.delete(`${API_URL}/journal/${id}`, config);
       fetchEntries();
     } catch (error) {
       console.error("Error deleting entry", error);
