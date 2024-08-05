@@ -18,17 +18,33 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { saveAnswers } from "./QuestionaireService";
-import { questions } from "./questions";
-import { scores } from "./scores";
+import { questions1, questions2 } from "./questions";
+import { scores1, scores2 } from "./scores";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
-const Questionnaire = ({ setStep }) => {
+const Questionnaire = ({ setStep, setOpenQuestionnaire }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState([]);
   const [fadeIn, setFadeIn] = useState(true);
   const [isAnswerValid, setIsAnswerValid] = useState(false);
   const [moodRating, setMoodRating] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [scores, setScores] = useState({});
+
+  useEffect(() => {
+    // Randomly select between the two sets of questions and scores
+    const randomIndex = Math.floor(Math.random() * 2);
+    console.log(questions1);
+    if (randomIndex === 0) {
+      setQuestions(questions1);
+      console.log(questions1);
+      setScores(scores1);
+    } else {
+      setQuestions(questions2);
+      setScores(scores2);
+    }
+  }, []);
 
   useEffect(() => {
     setIsAnswerValid(currentAnswer.length > 0);
@@ -98,7 +114,8 @@ const Questionnaire = ({ setStep }) => {
       setMoodRating(rating);
       await saveAnswers(answers, rating);
       alert("Answers submitted successfully");
-      // setStep(3);
+      setStep(3);
+      setOpenQuestionnaire(false);
       localStorage.setItem("step", 3);
       localStorage.setItem("setupTime", new Date().getTime());
     } catch (error) {
@@ -132,18 +149,14 @@ const Questionnaire = ({ setStep }) => {
     }
   };
 
-  const getProgressColor = (rating) => {
-    if (rating >= 75) return "#0bdc84";
-    if (rating >= 65) return "#89f0c3";
-    if (rating >= 50) return "#FED053";
-    if (rating >= 25) return "#f77f00";
-    return "#d62828";
-  };
+  if (!questions[currentQuestion]) {
+    return <Typography>Loading...</Typography>;
+  }
   return (
     <Container maxWidth="md" sx={{ marginTop: 4 }}>
       <Fade in={fadeIn} timeout={500}>
         <div>
-          <Card bgcolor="background.default">
+          <Card bgcolor="background.default" sx={{ minWidth: "80vh" }}>
             <CardContent>
               <FormControl component="fieldset" fullWidth>
                 <Typography
@@ -241,50 +254,6 @@ const Questionnaire = ({ setStep }) => {
               </FormControl>
             </CardContent>
           </Card>
-          {moodRating !== null && (
-            <Box sx={{ marginTop: 4 }}>
-              <Paper elevation={3} sx={{ padding: 2 }}>
-                <Typography variant="h5" mb="2vh" gutterBottom>
-                  Your Mood Rating: {moodRating.toFixed(2)} %
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={moodRating}
-                  sx={{
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: "lightgray",
-                    "& .MuiLinearProgress-bar": {
-                      backgroundColor: getProgressColor(moodRating),
-                    },
-                  }}
-                />
-                <div align="center">
-                  <Gauge
-                    value={moodRating.toFixed(2)}
-                    width={200}
-                    height={200}
-                    startAngle={-110}
-                    endAngle={110}
-                    sx={{
-                      [`& .${gaugeClasses.valueArc}`]: {
-                        fill: `${getProgressColor(moodRating)}`,
-                      },
-                    }}
-                    text={({ value, valueMax }) => `${value} / ${valueMax}`}
-                  />
-                </div>
-                <Typography variant="body1" align="center">
-                  {moodRating >= 75
-                    ? "We are happy that You are feeling great! 💚"
-                    : moodRating >= 50
-                    ? "You are doing okay. Keep it up 💛"
-                    : "We all have bad days. You might need some support. But remember, It too shall pass ❤️"}
-                </Typography>
-                {/* <Gauge width={100} height={100} value={60} /> */}
-              </Paper>
-            </Box>
-          )}
         </div>
       </Fade>
     </Container>

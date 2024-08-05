@@ -14,15 +14,23 @@ import { ReactTyped } from "react-typed";
 import ReactMarkdown from "react-markdown";
 import Footer from "../Footer";
 import config from "../../config";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const Recommendations = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const API_URL = `${config.moodtracker}`;
+  const [showButton, setShowButton] = useState(false);
+
   const token = localStorage.getItem("token");
   if (!token) throw new Error("No token found");
-
+  const sessionId = localStorage.getItem("sessionId") || uuidv4();
+  if (!localStorage.getItem("sessionId")) {
+    localStorage.setItem("sessionId", sessionId);
+  }
   const configs = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -36,7 +44,10 @@ const Recommendations = ({ userId }) => {
     console.log(localStorage.getItem("recommondations"));
     const fetchRecommendations = async () => {
       try {
-        const response = await axios.get(`${API_URL}/recommendations`, configs);
+        const response = await axios.get(
+          `${API_URL}/recommendations/${sessionId}`,
+          configs
+        );
         setRecommendations(response.data.recommendations);
         setDisplayText(response.data.recommendations);
         console.log(response.data.recommendations);
@@ -51,6 +62,7 @@ const Recommendations = ({ userId }) => {
     if (!localStorage.getItem("recommondations")) {
       fetchRecommendations();
     } else {
+      console.log(sessionId);
       setLoading(false);
       setRecommendations(localStorage.getItem("recommondations"));
       setDisplayText(localStorage.getItem("recommondations"));
@@ -107,30 +119,6 @@ const Recommendations = ({ userId }) => {
       </Typography>
       <Typography variant="h5" paragraph color="text.primary">
         {!available ? (
-          //   <ReactMarkdown>
-          //   <ReactMarkdown
-          //     components={{
-          //       p: ({ node, ...props }) => (
-          //         <TypingAnimation text={props.children} />
-          //       ),
-          //       blockquote: ({ node, ...props }) => (
-          //         <blockquote>
-          //           <TypingAnimation text={props.children} />
-          //         </blockquote>
-          //       ),
-          //       ul: ({ node, ...props }) => (
-          //         <ul>
-          //           {props.children.map((child, i) => (
-          //             <li key={i}>
-          //               <TypingAnimation text={child.props.children} />
-          //             </li>
-          //           ))}
-          //         </ul>
-          //       ),
-          //     }}
-          //   >
-          //     {recommendations}
-          //   </ReactMarkdown>
           <ReactTyped
             // strings={[text]}
             strings={[displayText]}
@@ -139,10 +127,26 @@ const Recommendations = ({ userId }) => {
             showCursor={true}
             cursorChar="|"
             loop={false}
+            onComplete={() => setShowButton(true)}
           />
         ) : (
-          //   </ReactMarkdown>
           <ReactMarkdown>{recommendations}</ReactMarkdown>
+        )}
+        {showButton && (
+          <Box
+            mt={5}
+            alignItems="center"
+            justifyContent="center"
+            display="flex"
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/chat")}
+            >
+              Follow up on our chat service
+            </Button>
+          </Box>
         )}
       </Typography>
     </Container>

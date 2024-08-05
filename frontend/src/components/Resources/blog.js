@@ -44,6 +44,7 @@ const MediumEmbed = () => {
   const [search, setSearch] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
   const searchInputRef = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -78,7 +79,16 @@ const MediumEmbed = () => {
 
       return titleMatch || contentMatch || linkMatch || authorMatch;
     });
-    setFilteredArticles(filtered);
+    const sortedArticles = [...filtered].sort((a, b) => {
+      if (a.title < b.title) {
+        return -1;
+      }
+      if (a.title > b.title) {
+        return 1;
+      }
+      return 0;
+    });
+    setFilteredArticles(sortedArticles);
   }, [search, articles]);
 
   // useEffect(() => {
@@ -363,8 +373,9 @@ const MediumEmbed = () => {
       <Fab
         color="primary"
         aria-label="add"
-        style={{ position: "fixed", bottom: "90px", right: "20px" }}
+        style={{ position: "fixed", bottom: "160px", right: "20px" }}
         onClick={handleDialogOpen}
+        disabled={user.role == "moderator" ? false : true}
       >
         <AddIcon />
       </Fab>

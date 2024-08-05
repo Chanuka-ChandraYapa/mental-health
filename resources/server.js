@@ -68,6 +68,9 @@ app.get("/medium-feed", async (req, res) => {
   let urls = [
     "https://medium.com/feed/@thelifedesignhub",
     "https://medium.com/feed/@riskaislmyh",
+    "https://medium.com/feed/@thenutritionist",
+    "https://medium.com/feed/@sehgalsherya",
+    "https://medium.com/feed/@mlemanchester",
   ];
   try {
     for (const rssUrl of urls) {

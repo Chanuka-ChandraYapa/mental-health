@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema(
     personality: { type: String }, // Optional field for user location
     bio: { type: String }, // Optional field for a brief bio
     interests: { type: [String] }, // Optional field for a list of interests
-    role: { type: String }, // Optional field for user role
+    role: { type: String, default: "user" }, // Optional field for user role
   },
   { timestamps: true }
 ); // Adding timestamps for createdAt and updatedAt

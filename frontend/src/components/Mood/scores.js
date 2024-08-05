@@ -1,10 +1,10 @@
-export const scores = {
+export const scores1 = {
   0: { Happy: 3, Sad: -3, Anxious: -2, Depressed: -5 },
   1: { Reading: 1, Exercising: 2, Socializing: 2, Working: 1 },
   2: { "Not at all": 3, "A few times": 1, Often: -2, Always: -3 },
   3: { Yes: 2, No: -2, Sometimes: 0 },
   4: { "Very good": 3, Good: 2, Average: 0, Poor: -2 },
-  5: { Daily: 3, "A few times a week": 1, Rarely: -1, Never: -2 },
+  5: { Yes: 3, No: -3 },
   6: {
     Meditation: 2,
     Reading: 1,
@@ -17,4 +17,29 @@ export const scores = {
   9: { Work: -2, Family: -1, Health: -3, Finances: -2, Relationships: -2 },
   10: { Yes: 2, No: -2, Sometimes: 0 },
   11: { Never: 3, Rarely: 2, Sometimes: 0, Often: -2 },
+};
+
+export const scores2 = {
+  0: { Excellent: 3, Good: 2, Fair: 0, Bad: -3 },
+  1: { Yes: 3, No: -3, Sometimes: 1 },
+  2: {
+    "Very productive": 3,
+    Productive: 2,
+    "Somewhat productive": 0,
+    "Not productive": -2,
+  },
+  3: { Yes: 2, No: -2 },
+  4: { One: -1, Two: 1, Three: 2, "More than three": 3 },
+  5: { "Not at all": 3, "A little": 1, "Quite a bit": -2, "Very anxious": -3 },
+  6: {
+    "Listening to music": 2,
+    Cooking: 1,
+    Yoga: 3,
+    "Watching movies": 0,
+  },
+  7: { Yes: 2, No: -2 },
+  8: { Excellent: 3, Good: 2, Fair: 0, Poor: -3 },
+  9: { Yes: 2, No: -2 },
+  10: { Yes: -2, No: 3, "A little": 1 },
+  11: { Never: -3, Once: 0, "A few times": 2, Often: 3 },
 };

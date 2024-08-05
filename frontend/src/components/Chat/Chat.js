@@ -26,10 +26,16 @@ const Chat = () => {
   );
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
+  const [signInMessage, setSignInMessage] = useState(false);
+  const token = localStorage.getItem("token");
 
   const handleSend = async () => {
-    if (userInput !== "") {
+    if (!token) {
+      setSignInMessage(true);
+    }
+    if (userInput !== "" && token) {
       setLoading(true);
+      setSignInMessage(false);
       const response = await fetch(
         // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
         // "http://localhost:5000/chatbot",
@@ -130,6 +136,14 @@ const Chat = () => {
           >
             I may make mistakes. Please use me with care.😊
           </Alert>
+          {signInMessage && (
+            <Alert
+              severity="error"
+              sx={{ marginBottom: "20px", marginTop: "20px" }}
+            >
+              Please SignIn to use the chat service.
+            </Alert>
+          )}
         </Box>
         {chatHistory.map((chat, index) => (
           <Box

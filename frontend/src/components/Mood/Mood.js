@@ -1,7 +1,17 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
-import { Card, Typography, Box, Button, useMediaQuery } from "@mui/material";
+import {
+  Card,
+  Typography,
+  Box,
+  Button,
+  useMediaQuery,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Backdrop,
+} from "@mui/material";
 import Rating from "@mui/material/Rating";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
@@ -18,6 +28,9 @@ import MoodHistoryGraph2 from "./Graph2";
 import MoodRatingPieChart from "./Graph3";
 import Journal from "./Journal";
 import useCustomTheme from "../../utils/customTheme";
+import BreathingExercise from "../Exercises/Breating";
+import Exercise from "../Exercises";
+import SleepTracker from "../Exercises/SleepTracker";
 
 const StyledRating = styled(Rating)(({ theme }) => ({
   "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
@@ -30,17 +43,24 @@ export default function Mood() {
   const { selectedRating, setSelectedRating } = useCustomTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [step, setStep] = React.useState(1);
+  const [openQuestionnaire, setOpenQuestionnaire] = React.useState(false);
   const navigate = useNavigate();
+
   const handleYes = () => {
-    setStep(2);
+    setOpenQuestionnaire(true);
   };
+
+  const handleQuestionnaireClose = () => {
+    setOpenQuestionnaire(false);
+  };
+
   const handleOk = () => {
     setStep(1);
     navigate("/recommendations");
   };
+
   const getTimer = () => {
     var hours = 24; // to clear the localStorage after 1 hour
-    // (if someone want to clear after 8hrs simply change hours=8)
     var now = new Date().getTime();
     var setupTime = localStorage.getItem("setupTime");
     if (setupTime == null) {
@@ -53,14 +73,15 @@ export default function Mood() {
       }
     }
   };
+
   React.useEffect(() => {
     getTimer();
     if (localStorage.getItem("step") === 3) {
-      // setStep(3);
-    }
-    if (localStorage.getItem("recommondations")) {
       setStep(3);
     }
+    // if (localStorage.getItem("recommondations")) {
+    //   setStep(3);
+    // }
   });
 
   const customIcons = {
@@ -118,6 +139,7 @@ export default function Mood() {
   IconContainer.propTypes = {
     value: PropTypes.number.isRequired,
   };
+
   const handleRatingChange = (event, newValue) => {
     setSelectedRating(newValue);
   };
@@ -198,10 +220,39 @@ export default function Mood() {
             </div>
           </>
         )}
-        <MoodRatingGraph />
+        <MoodRatingGraph openQuestionnaire={openQuestionnaire} />
         <Journal />
+        <Exercise />
+        {/* <SleepTracker /> */}
       </Box>
       <Footer />
+      <Backdrop
+        open={openQuestionnaire}
+        onClick={handleQuestionnaireClose}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          blur: "5px",
+        }}
+      >
+        <Box
+          sx={{
+            bgcolor: "transparent",
+            borderRadius: 2,
+            boxShadow: 3,
+            p: 3,
+            maxWidth: "sm",
+            width: "100%",
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Questionaire
+            setStep={setStep}
+            setOpenQuestionnaire={setOpenQuestionnaire}
+          />
+        </Box>
+      </Backdrop>
     </>
   );
 }

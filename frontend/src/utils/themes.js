@@ -2,6 +2,14 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          fontFamily: "Lato, sans-serif",
+        },
+      },
+    },
+
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -74,6 +82,15 @@ theme.typography.h5 = {
   [theme.breakpoints.up("md")]: {
     fontSize: "1.7rem",
   },
+};
+theme.typography.h6 = {
+  fontFamily: "Lato , sans-serif",
+  fontSize: "1.5rem",
+};
+
+theme.typography.body1 = {
+  fontFamily: "Lato , sans-serif",
+  fontSize: "1.1rem",
 };
 
 export default theme;

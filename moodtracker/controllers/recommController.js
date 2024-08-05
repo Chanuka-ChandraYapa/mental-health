@@ -128,6 +128,8 @@ const getRecommendation = (answers) => {
 
 exports.getRecommendations = async (req, res) => {
   try {
+    const { id } = req.params;
+    console.log("sessionid", id);
     const userId = req.user.id; // Assuming userId is passed as a query parameter
     var answers;
     try {
@@ -152,6 +154,7 @@ exports.getRecommendations = async (req, res) => {
           message:
             " Analyze the schema of questions an answers about a person's todays's mental state and give recommendations to the person with 500 word paragraph with no paragraph breaks. Please give only just the plain paragraph do not include text in point forms. No headings. No sub headings" +
             answers.pop().answers,
+          sessionId: id,
         }),
       }
     );

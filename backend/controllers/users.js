@@ -60,6 +60,7 @@ exports.loginUser = async (req, res) => {
             bio: user.bio,
             interests: user.interests,
             personality: user.personality,
+            role: user.role,
           },
         });
       }

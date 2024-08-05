@@ -144,13 +144,30 @@ const Journal = () => {
         )}
         <Divider />
         {entries.length === 0 ? (
-          <Typography variant="body1" sx={{ marginTop: "20px" }}>
-            Looks like a Deserted. Let's Fill it up.
-          </Typography>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography variant="body1" sx={{ marginTop: "20px" }}>
+              Looks like a Deserted. Let's Fill it up.
+            </Typography>
+            <img
+              src="/emptyspace.png"
+              style={{ width: "150px", padding: "80px" }}
+              alt="Robot"
+            />
+          </Box>
         ) : (
           <>
             {!hasEntryForToday && (
-              <Typography variant="body1" sx={{ marginTop: "20px" }}>
+              <Typography
+                variant="h5"
+                sx={{ marginTop: "20px" }}
+                color="primary.main"
+                align="center"
+              >
                 What did you do today?
               </Typography>
             )}

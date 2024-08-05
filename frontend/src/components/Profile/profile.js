@@ -79,25 +79,27 @@ const Dashboard = () => {
               {/* Quote of the Day */}
               <Card sx={{ padding: "10px", height: "100%" }}>
                 <CardContent>
-                  <Typography variant="h6">Quote of the Day</Typography>
-                  <Typography variant="body1">
+                  <Typography variant="h6" color="primary.main">
                     "The only way out is through." - Robert Frost
                   </Typography>
+                  <Typography variant="body1">Quote of the Day</Typography>
                 </CardContent>
               </Card>
 
               {/* Resource of the Day */}
               <Card sx={{ padding: "10px", height: "100%" }}>
                 <CardContent>
-                  <Typography variant="h6">Resource of the Day</Typography>
                   <Link
-                    href="https://example.com/resource"
+                    href="https://medium.com/@thelifedesignhub/building-positive-relationships-93ff47b30796?source=rss-2075d03dc9fd------2"
                     target="_blank"
                     rel="noopener"
                     sx={{ textDecoration: "none", color: "primary.main" }}
                   >
-                    Check out today's recommended resource
+                    <Typography variant="h6" color="primary.main">
+                      Building Positive Relationships
+                    </Typography>
                   </Link>
+                  <Typography variant="body1">Resource of the Day</Typography>
                 </CardContent>
               </Card>
             </Stack>

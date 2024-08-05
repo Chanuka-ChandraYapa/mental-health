@@ -27,6 +27,9 @@ import Notification from "./components/Notifications/client";
 import Notifications from "./components/Notifications/Notifications";
 import ChatDrawer from "./components/Chat/ChatDrawer";
 import ChatPage from "./components/Chat/ChatPage";
+import Login from "./components/Music/auth";
+import Callback from "./components/Music/callback";
+import Music from "./components/Music/music";
 
 const App = () => {
   // const { theme } = useCustomTheme();
@@ -68,9 +71,10 @@ const App = () => {
       <Provider store={store}>
         <Router>
           <NavBar unreadCount={unreadCount} setUnreadCount={setUnreadCount} />
-          <RobotAnimation />
+          {/* <RobotAnimation /> */}
           <Box mt={isMobile ? 5 : 5}></Box>
           {!isMobile && <ChatDrawer />}
+          <Music />
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<SignIn />} />
@@ -97,6 +101,9 @@ const App = () => {
               }
             />
             <Route path="/notification" element={<Notification />} />
+            <Route path="/auth" element={<Login />} />
+            <Route path="/callback" element={<Callback />} />
+            <Route path="/music" element={<Music />} />
           </Routes>
         </Router>
       </Provider>
