@@ -16,7 +16,8 @@ const createPost = async (req, res) => {
   const { title, content, userId } = req.body;
   try {
     const userResponse = await axios.post(
-      `http://localhost:5001/api/users/userInfo`,
+      // `http://localhost:5001/api/users/userInfo`,
+      "https://mental-health-user-management.onrender.com/api/users/userInfo",
       req.body
     );
     const userName = userResponse.data.name;
@@ -40,7 +41,8 @@ const addReply = async (req, res) => {
   console.log("hi reply", req.body);
   try {
     const userResponse = await axios.post(
-      `http://localhost:5001/api/users/userInfo`,
+      // `http://localhost:5001/api/users/userInfo`,
+      "https://mental-health-user-management.onrender.com/api/users/userInfo",
       req.body
     );
     const userName = userResponse.data.name;
