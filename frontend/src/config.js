@@ -11,7 +11,7 @@ const config = {
   chatbot: "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
   forum: "http://localhost:3002",
   moodtracker: "https://mental-health-mood-tracker.onrender.com/api",
-  resources: "http://localhost:3004",
+  resources: "https://mental-health-production-d8e1.up.railway.app",
 };
 
 export default config;
