@@ -72,7 +72,7 @@ const App = () => {
         <Router>
           <NavBar unreadCount={unreadCount} setUnreadCount={setUnreadCount} />
           {/* <RobotAnimation /> */}
-          <Box mt={isMobile ? 5 : 5}></Box>
+          <Box mt={isMobile ? 0 : 0}></Box>
           {!isMobile && <ChatDrawer />}
           <Music />
           <Routes>

@@ -188,8 +188,17 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
   );
 
   return (
-    <AppBar position="fixed">
-      <Toolbar>
+    <AppBar
+      position="fixed"
+      sx={{ background: "transparent", boxShadow: "none" }}
+    >
+      <Toolbar
+        sx={{
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(63, 81, 181, 0))",
+          height: "64px", // Adjust this to your AppBar height
+        }}
+      >
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Mental Bloom
         </Typography>
