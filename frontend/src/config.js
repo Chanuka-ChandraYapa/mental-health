@@ -9,7 +9,7 @@
 const config = {
   backend: "https://mental-health-user-management.onrender.com",
   chatbot: "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
-  forum: "http://mental-health-forum-production.up.railway.app",
+  forum: "https://mental-health-forum-production.up.railway.app",
   moodtracker: "https://mental-health-mood-tracker.onrender.com/api",
   resources: "https://mental-health-production-d8e1.up.railway.app",
 };
