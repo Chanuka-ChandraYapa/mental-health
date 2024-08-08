@@ -117,7 +117,7 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
         )}
       </Box>
       <Box sx={{ height: 400 }}>
-        {loading && (
+        {!loading && (
           <ResponsiveContainer width="100%" height={400}>
             <LineChart
               data={data}
