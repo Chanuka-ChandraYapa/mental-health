@@ -1,6 +1,11 @@
 // src/App.js
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import { ThemeProvider } from "@mui/material/styles";
@@ -30,12 +35,24 @@ import ChatPage from "./components/Chat/ChatPage";
 import Login from "./components/Music/auth";
 import Callback from "./components/Music/callback";
 import Music from "./components/Music/music";
+import checkToken from "./utils/checkToken";
 
 const App = () => {
   // const { theme } = useCustomTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
+  const [isTokenValid, setIsTokenValid] = useState(false);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      const isValid = await checkToken();
+      setIsTokenValid(isValid);
+    };
+
+    validateToken();
+  }, []);
+
   useEffect(() => {
     // Create a new EventSource instance to listen for notifications
     const eventSource = new EventSource("http://localhost:4001/notifications");
@@ -79,31 +96,88 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/" element={<Home />} />
-            <Route path="/chat" element={<ChatPage />} />
-            <Route path="/support" element={<Forum />} />
-            <Route path="/support/:id" element={<PostDetails />} />
-            <Route path="/mood" element={<Mood />} />
-            <Route path="/resources/videos" element={<Resources />} />
-            <Route path="/resources/articles" element={<Blog />} />
-            <Route path="/recommendations" element={<Recommendation />} />
-            <Route path="/edit" element={<EditPage />} />
-            <Route path="/therapists" element={<TherapistMap />} />
-            <Route path="/moderator" element={<ModeratorRequestForm />} />
-            <Route path="/profile" element={<Dashboard />} />
+            <Route
+              path="/chat"
+              element={isTokenValid ? <ChatPage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/support"
+              element={isTokenValid ? <Forum /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/support/:id"
+              element={
+                isTokenValid ? <PostDetails /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/mood"
+              element={isTokenValid ? <Mood /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/resources/videos"
+              element={isTokenValid ? <Resources /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/resources/articles"
+              element={isTokenValid ? <Blog /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/recommendations"
+              element={
+                isTokenValid ? <Recommendation /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/edit"
+              element={isTokenValid ? <EditPage /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/therapists"
+              element={
+                isTokenValid ? <TherapistMap /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/moderator"
+              element={
+                isTokenValid ? (
+                  <ModeratorRequestForm />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/profile"
+              element={isTokenValid ? <Dashboard /> : <Navigate to="/login" />}
+            />
             <Route
               path="/notifications"
               element={
-                <Notifications
-                  setUnreadCount={setUnreadCount}
-                  notifications={notifications}
-                  setNotifications={setNotifications}
-                />
+                isTokenValid ? (
+                  <Notifications
+                    setUnreadCount={setUnreadCount}
+                    notifications={notifications}
+                    setNotifications={setNotifications}
+                  />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
-            <Route path="/notification" element={<Notification />} />
+            <Route
+              path="/notification"
+              element={
+                isTokenValid ? <Notification /> : <Navigate to="/login" />
+              }
+            />
             <Route path="/auth" element={<Login />} />
             <Route path="/callback" element={<Callback />} />
-            <Route path="/music" element={<Music />} />
+            <Route
+              path="/music"
+              element={isTokenValid ? <Music /> : <Navigate to="/login" />}
+            />
           </Routes>
         </Router>
       </Provider>

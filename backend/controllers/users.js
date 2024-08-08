@@ -147,3 +147,23 @@ exports.updateUserInfo = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Middleware to verify token
+exports.verifyToken = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token)
+    return res.status(401).json({ msg: "No token, authorization denied" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.user;
+    next();
+  } catch (err) {
+    res.status(401).json({ msg: "Token is not valid" });
+  }
+};
+
+// Endpoint to check if token is valid
+exports.checkToken = (req, res) => {
+  res.json({ valid: true });
+};

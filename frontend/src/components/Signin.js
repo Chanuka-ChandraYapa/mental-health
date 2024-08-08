@@ -46,7 +46,8 @@ const SignIn = () => {
     console.log(message);
     setLoading(false);
     if (localStorage.getItem("token")) {
-      navigate("/"); // Navigate to the home page
+      // navigate("/"); // Navigate to the home page
+      window.location.href = "/";
     }
   };
 

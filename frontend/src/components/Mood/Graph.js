@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import {
   Box,
+  CircularProgress,
   Container,
   LinearProgress,
   Paper,
@@ -22,19 +23,23 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 const MoodRatingGraph = ({ openQuestionnaire }) => {
   const [data, setData] = useState([]);
   const [moodRating, setMoodRating] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAnswers = async () => {
       try {
+        setLoading(true);
         const answers = await getAnswers();
         const formattedData = answers.map((answer) => ({
           rating: parseFloat(answer.rating).toFixed(2),
           date: new Date(answer.date).toLocaleDateString(),
         }));
         setData(formattedData);
+        setLoading(false);
         setMoodRating(formattedData[formattedData.length - 1].rating);
       } catch (error) {
         console.error("Error fetching answers", error);
+        setLoading(false);
       }
     };
 
@@ -52,7 +57,7 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
   return (
     <Container maxWidth="md" sx={{ paddingTop: "20px" }}>
       <Box sx={{ marginTop: 4, height: 350 }}>
-        {moodRating && (
+        {moodRating ? (
           <Paper elevation={3} sx={{ padding: 2 }}>
             <Typography variant="h5" mb="2vh" gutterBottom>
               Your Mood Rating: {moodRating} %
@@ -93,32 +98,50 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
             </Typography>
             {/* <Gauge width={100} height={100} value={60} /> */}
           </Paper>
+        ) : (
+          <>
+            {loading && (
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
+                bgcolor="background.default"
+                color="text.primary"
+              >
+                <CircularProgress />
+              </Box>
+            )}
+          </>
         )}
       </Box>
       <Box sx={{ height: 400 }}>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart
-            data={data}
-            margin={{
-              // top: 5,
-              right: 50,
-              // left: 20,
-              // bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="6 1" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip formatter={(value) => `${value}%`} />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="rating"
-              stroke="#0bdc84"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {loading && (
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart
+              data={data}
+              margin={{
+                // top: 5,
+                right: 50,
+                // left: 20,
+                // bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="6 1" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip formatter={(value) => `${value}%`} />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                stroke="#0bdc84"
+                activeDot={{ r: 8 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </Box>
     </Container>
   );
