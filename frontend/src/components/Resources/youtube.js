@@ -10,6 +10,7 @@ import {
   Box,
   TextField,
 } from "@mui/material";
+import renderSkeleton from "../../utils/cardSkeleton";
 
 // const API_KEY = "AIzaSyCchb1_foc6i6AZ1AwKmwFEWOKwAJYHbgo";
 const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
@@ -25,11 +26,20 @@ const YouTubeEmbed = () => {
   const [filteredVideos, setFilteredVideos] = useState([]);
   useEffect(() => {
     const fetchVideos = async () => {
+      setLoading(true);
       try {
+        if (localStorage.getItem("videos")) {
+          const response = JSON.parse(localStorage.getItem("videos"));
+          setVideos(response);
+          setFilteredVideos(response);
+          setLoading(false);
+          return;
+        }
         const response = await axios.get(
           `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}`
         );
         setVideos(response.data.items);
+        localStorage.setItem("videos", JSON.stringify(response.data.items));
         setFilteredVideos(response.data.items);
         setLoading(false);
       } catch (error) {
@@ -95,8 +105,11 @@ const YouTubeEmbed = () => {
         minHeight="100vh"
         bgcolor="background.default"
         color="text.primary"
+        p={4}
+        mt={4}
       >
-        <CircularProgress />
+        {/* <CircularProgress /> */}
+        {renderSkeleton()}
       </Box>
     );
   }
@@ -119,7 +132,7 @@ const YouTubeEmbed = () => {
     );
   }
   return (
-    <Box bgcolor="background.default" pt={5}>
+    <Box bgcolor="background.default" pt={5} p={4} mt={4}>
       <Typography variant="h4" gutterBottom color="text.primary">
         Mental Health Care Videos
       </Typography>

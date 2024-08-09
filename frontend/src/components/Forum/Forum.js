@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import Footer from "../Footer";
 import { useNavigate } from "react-router-dom";
 import config from "../../config";
+import renderSkeleton from "../../utils/forumSkeleton";
 
 const Forum = () => {
   const { user, message, token } = useSelector((state) => state.user);
@@ -28,17 +29,18 @@ const Forum = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      axios.get(`${config.forum}/posts/getPosts`).then((response) => {
+    axios
+      .get(`${config.forum}/posts/getPosts`)
+      .then((response) => {
         setPosts(response.data);
         console.log(response.data);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Forum Posts", error);
+        setLoading(false);
+        setError(true);
       });
-    } catch (error) {
-      console.error("Error fetching Forum Posts", error);
-      setLoading(false);
-      setError(true);
-    }
   }, []);
 
   const handleChange = (e) => {
@@ -73,8 +75,11 @@ const Forum = () => {
         minHeight="100vh"
         bgcolor="background.default"
         color="text.primary"
+        p={4}
+        mt={4}
       >
-        <CircularProgress />
+        {/* <CircularProgress /> */}
+        {renderSkeleton()}
       </Box>
     );
   }

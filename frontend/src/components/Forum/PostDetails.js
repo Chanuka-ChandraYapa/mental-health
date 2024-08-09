@@ -29,17 +29,18 @@ const PostDetails = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    try {
-      axios.get(`${config.forum}/posts/getPosts`).then((response) => {
+    axios
+      .get(`${config.forum}/posts/getPosts`)
+      .then((response) => {
         setPosts(response.data);
         console.log(response.data);
         setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Forum Posts", error);
+        setLoading(false);
+        setError(true);
       });
-    } catch (error) {
-      console.error("Error fetching Forum Posts", error);
-      setLoading(false);
-      setError(true);
-    }
   }, []);
 
   if (loading) {

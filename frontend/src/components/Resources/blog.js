@@ -30,6 +30,7 @@ import Fade from "@mui/material/Fade";
 import { styled } from "@mui/material/styles";
 import { tooltipClasses } from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
+import renderSkeleton from "../../utils/cardSkeleton";
 import config from "../../config";
 
 const MediumEmbed = () => {
@@ -202,8 +203,11 @@ const MediumEmbed = () => {
         minHeight="100vh"
         bgcolor="background.default"
         color="text.primary"
+        p={4}
+        mt={4}
       >
-        <CircularProgress />
+        {/* <CircularProgress /> */}
+        {renderSkeleton()}
       </Box>
     );
   }

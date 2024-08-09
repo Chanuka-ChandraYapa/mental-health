@@ -156,7 +156,7 @@ const Questionnaire = ({ setStep, setOpenQuestionnaire }) => {
     <Container maxWidth="md" sx={{ marginTop: 4 }}>
       <Fade in={fadeIn} timeout={500}>
         <div>
-          <Card bgcolor="background.default" sx={{ minWidth: "80vh" }}>
+          <Card bgcolor="background.default">
             <CardContent>
               <FormControl component="fieldset" fullWidth>
                 <Typography
