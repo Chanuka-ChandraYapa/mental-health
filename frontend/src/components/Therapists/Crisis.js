@@ -72,9 +72,11 @@ const CrisisMessage = () => (
       alignItems: "center",
       justifyContent: "center",
       display: "flex",
+      marginTop: "30px",
+      padding: "10px",
     }}
   >
-    <Typography variant="h6" gutterBottom color="white">
+    <Typography variant="h6" gutterBottom color="white" align="center">
       If you or someone you know is in immediate danger because of thoughts of
       suicide, please call 119 or your local emergency number immediately.
     </Typography>

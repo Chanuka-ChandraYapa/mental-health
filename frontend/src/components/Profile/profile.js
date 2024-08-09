@@ -17,7 +17,7 @@ import { PersonalInfo } from "./info";
 
 const Dashboard = () => {
   return (
-    <Box bgcolor="background.default" color="text.primary" pt={5}>
+    <Box bgcolor="background.default" color="text.primary" pt={10}>
       <Container maxWidth="lg" sx={{ marginTop: "20px" }}>
         <Grid container spacing={3}>
           {/* Profile Information Section */}

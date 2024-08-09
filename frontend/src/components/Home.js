@@ -24,7 +24,7 @@ const Home = () => {
           className="hero bg-cover bg-center flex items-center justify-center relative"
           style={{
             position: "relative",
-            height: "90vh", // Ensure the section takes up almost the whole screen height
+            height: "100vh", // Ensure the section takes up almost the whole screen height
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",

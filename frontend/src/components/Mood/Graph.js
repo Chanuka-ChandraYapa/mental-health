@@ -19,16 +19,20 @@ import {
   Typography,
 } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import { set } from "react-hook-form";
+import renderSkeleton from "../../utils/graphSkeleton";
 
 const MoodRatingGraph = ({ openQuestionnaire }) => {
   const [data, setData] = useState([]);
   const [moodRating, setMoodRating] = useState();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchAnswers = async () => {
       try {
         setLoading(true);
+        setError(false);
         const answers = await getAnswers();
         const formattedData = answers.map((answer) => ({
           rating: parseFloat(answer.rating).toFixed(2),
@@ -40,6 +44,7 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
       } catch (error) {
         console.error("Error fetching answers", error);
         setLoading(false);
+        setError(true);
       }
     };
 
@@ -54,10 +59,45 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
     return "#d62828";
   };
 
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        maxHeight={310}
+        // bgcolor="background.default"
+        color="text.primary"
+        p={10}
+      >
+        {/* <CircularProgress /> */}
+        {renderSkeleton()}
+      </Box>
+    );
+  }
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        color="text.primary"
+        minHeight={370}
+        px={2}
+      >
+        <Typography variant="h6" color="primary.main" align="center">
+          Something Went Wrong! Please Try Reloading
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Container maxWidth="md" sx={{ paddingTop: "20px" }}>
       <Box sx={{ marginTop: 4, height: 350 }}>
-        {moodRating ? (
+        {moodRating && (
           <Paper elevation={3} sx={{ padding: 2 }}>
             <Typography variant="h5" mb="2vh" gutterBottom>
               Your Mood Rating: {moodRating} %
@@ -98,22 +138,6 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
             </Typography>
             {/* <Gauge width={100} height={100} value={60} /> */}
           </Paper>
-        ) : (
-          <>
-            {loading && (
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-                bgcolor="background.default"
-                color="text.primary"
-              >
-                <CircularProgress />
-              </Box>
-            )}
-          </>
         )}
       </Box>
       <Box sx={{ height: 400 }}>

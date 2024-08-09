@@ -18,6 +18,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../config";
+import { set } from "react-hook-form";
+import renderSkeleton from "../../utils/forumSkeleton";
 
 const API_URL = `${config.moodtracker}`;
 
@@ -26,6 +28,8 @@ const Journal = () => {
   const [entries, setEntries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showEntryForm, setShowEntryForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const entriesPerPage = 5;
 
   useEffect(() => {
@@ -42,9 +46,14 @@ const Journal = () => {
       },
     };
     try {
+      setLoading(true);
+      setError(false);
       const response = await axios.get(`${API_URL}/journal`, config);
       setEntries(response.data);
+      setLoading(false);
     } catch (error) {
+      setError(true);
+      setLoading(false);
       console.error("Error fetching entries", error);
     }
   };
@@ -107,6 +116,41 @@ const Journal = () => {
     (entry) => entry.date.split("T")[0] === today
   );
 
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        // bgcolor="background.default"
+        color="text.primary"
+        p={10}
+      >
+        {/* <CircularProgress /> */}
+        {renderSkeleton()}
+      </Box>
+    );
+  }
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        color="text.primary"
+        minHeight={400}
+        px={2}
+      >
+        <Typography variant="h6" color="primary.main" align="center">
+          Something Went Wrong! Please Try Reloading
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Container maxWidth="md" sx={{ padding: "20px", minHeight: "100vh" }}>
       <Paper sx={{ padding: "20px", marginBottom: "20px" }}>
@@ -151,11 +195,11 @@ const Journal = () => {
             alignItems="center"
           >
             <Typography variant="body1" sx={{ marginTop: "20px" }}>
-              Looks like a Deserted. Let's Fill it up.
+              Looks like a Desert. Let's Fill it up.
             </Typography>
             <img
               src="/emptyspace.png"
-              style={{ width: "150px", padding: "80px" }}
+              style={{ width: "150px", padding: "80px", opacity: 0.2 }}
               alt="Robot"
             />
           </Box>
