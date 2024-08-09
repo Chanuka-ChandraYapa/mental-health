@@ -7,7 +7,7 @@
 // };
 
 const config = {
-  backend: "https://mental-health-user-management.onrender.com",
+  backend: "https://mental-health-user-management-production.up.railway.app",
   chatbot: "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
   forum: "https://mental-health-forum-production.up.railway.app",
   moodtracker: "https://mental-health-mood-tracker.onrender.com/api",

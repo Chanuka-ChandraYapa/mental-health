@@ -43,7 +43,7 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
         setMoodRating(formattedData[formattedData.length - 1].rating);
       } catch (error) {
         console.error("Error fetching answers", error);
-        setLoading(false);
+        // setLoading(false);
         setError(true);
       }
     };
