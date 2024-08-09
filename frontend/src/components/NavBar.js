@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const NavBar = ({ unreadCount, setUnreadCount }) => {
+const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
   const [value, setValue] = useState(0);
   const navigate = useNavigate(); // Use the hook
   const { token } = useSelector((state) => state.user);
@@ -124,7 +124,7 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
         <ListItem button onClick={() => handleChange(null, 0)}>
           <ListItemText primary="Home" />
         </ListItem>
-        {token && (
+        {isTokenValid && (
           <>
             <ListItem button onClick={() => handleChange(null, 1)}>
               <ListItemText primary="Chat" />
@@ -173,7 +173,7 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
             </ListItem>
           </>
         )}
-        {!token && (
+        {!isTokenValid && (
           <>
             <ListItem button onClick={() => handleSignIn()}>
               <ListItemText primary="Login" />
@@ -224,10 +224,10 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
           <>
             <Tabs value={value} onChange={handleChange}>
               <Tab label="Home" />
-              {token && <Tab label="Chat" />}
-              {token && <Tab label="Mood" />}
-              {token && <Tab label="Recommendations" />}
-              {token && (
+              {isTokenValid && <Tab label="Chat" />}
+              {isTokenValid && <Tab label="Mood" />}
+              {isTokenValid && <Tab label="Recommendations" />}
+              {isTokenValid && (
                 <>
                   <Tab label="Resources" onClick={handleMenu} />
                   <Menu
@@ -250,13 +250,13 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
                   </Menu>
                 </>
               )}
-              {token && <Tab label="Support" />}
-              {token && <Tab label="Therapists" />}
+              {isTokenValid && <Tab label="Support" />}
+              {isTokenValid && <Tab label="Therapists" />}
               {/* {token && <Tab label="Profile" />} */}
-              {token && (
+              {isTokenValid && (
                 <Tab icon={<AccountCircleIcon />} aria-label="Profile" />
               )}
-              {token && (
+              {isTokenValid && (
                 <Tab
                   icon={
                     <Badge badgeContent={unreadCount} color="secondary">
@@ -267,7 +267,7 @@ const NavBar = ({ unreadCount, setUnreadCount }) => {
                 />
               )}
             </Tabs>
-            {token ? (
+            {isTokenValid ? (
               <Button color="inherit" onClick={handleLogOut}>
                 Log Out
               </Button>
