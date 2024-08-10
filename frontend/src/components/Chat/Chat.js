@@ -27,6 +27,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const [signInMessage, setSignInMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const token = localStorage.getItem("token");
 
   const handleSend = async () => {
@@ -35,6 +36,7 @@ const Chat = () => {
     }
     if (userInput !== "" && token) {
       setLoading(true);
+      setErrorMessage(null);
       setSignInMessage(false);
       const response = await fetch(
         // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
@@ -49,6 +51,15 @@ const Chat = () => {
           // mode: "no-cors",
         }
       );
+      if (!response.ok) {
+        // Handle HTTP errors
+        const errorData = await response.json();
+        console.error("Error:", errorData.error || "Something went wrong");
+        // Display error message to the user
+        setErrorMessage(errorData.error || "Something went wrong");
+        setLoading(false);
+        return;
+      }
       const data = await response.json();
       setChatHistory([
         ...chatHistory,
@@ -180,6 +191,14 @@ const Chat = () => {
             </Box>
           </Box>
         ))}
+        {errorMessage && (
+          <Alert
+            severity="error"
+            sx={{ marginBottom: "20px", marginTop: "20px" }}
+          >
+            {errorMessage}
+          </Alert>
+        )}
         <div ref={chatEndRef} />
       </CardContent>
       <Box position="relative" bottom={0} sx={{ display: "flex", padding: 2 }}>
