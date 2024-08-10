@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Chatbot API
+  description: API for interacting with the chatbot.
+  version: 1.0.0
+
+paths:
+  /chatbot:
+    post:
+      summary: Get a response from the chatbot
+      tags: [Chatbot]
+      description: Sends a message to the chatbot and receives a response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: The message to be sent to the chatbot.
+                  example: "Hello, how are you?"
+                sessionId:
+                  type: string
+                  description: The unique session ID for the chat session.
+                  example: "abc123"
+      responses:
+        "200":
+          description: Successful response from the chatbot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: The chatbot's response to the message.
+                    example: "I'm good, thank you! How can I assist you today?"
+        "400":
+          description: Bad request, invalid input
+        "429":
+          description: Too many requests
+        "500":
+          description: Internal server error

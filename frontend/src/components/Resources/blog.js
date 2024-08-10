@@ -22,7 +22,10 @@ import {
   Tooltip,
   InputAdornment,
   IconButton,
+  Autocomplete,
 } from "@mui/material";
+import Fuse from "fuse.js";
+import jaroWinkler from "talisman/metrics/jaro-winkler";
 import AddIcon from "@mui/icons-material/Add";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer";
@@ -44,8 +47,32 @@ const MediumEmbed = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
   const searchInputRef = useRef(null);
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const generateSuggestions = (input, articles) => {
+    return articles
+      .filter((article) => {
+        const fields = [
+          article.title,
+          article.content,
+          article.link,
+          article.author,
+        ];
+        return fields.some(
+          (field) =>
+            field && jaroWinkler(input.toLowerCase(), field.toLowerCase()) > 0.2
+        );
+      })
+      .map((article) => article.title)
+      .filter(Boolean); // Remove null/undefined titles
+  };
+
+  useEffect(() => {
+    const suggestions = generateSuggestions(search, articles);
+    setSuggestions(suggestions);
+  }, [search, articles]);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -243,7 +270,7 @@ const MediumEmbed = () => {
         p={5}
         style={mainContentStyle}
       >
-        <TextField
+        {/* <TextField
           label="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -259,6 +286,33 @@ const MediumEmbed = () => {
               </InputAdornment>
             ),
           }}
+        /> */}
+        <Autocomplete
+          freeSolo
+          fullWidth
+          options={suggestions}
+          inputValue={search}
+          onInputChange={(event, newInputValue) => {
+            setSearch(newInputValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search"
+              fullWidth
+              margin="normal"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
         />
         <Grid container spacing={3}>
           {filteredArticles.map((article) => (

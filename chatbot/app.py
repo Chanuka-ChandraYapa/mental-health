@@ -15,7 +15,14 @@ def chatbot_api():
     print(session_id, "hi")
     # response = get_response(user_input)
     # response = process_prompt(user_input)
+
+    if not user_input or not session_id:
+        return jsonify({'error': 'Missing required parameters'}), 400
     response = get_response_v3(user_input, session_id)
+
+    if isinstance(response, tuple) and response[1] >= 400:
+        # If it's a tuple with an error status, return it directly
+        return response
     return jsonify({'response': response})
 
 

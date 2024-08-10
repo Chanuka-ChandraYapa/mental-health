@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swagger UI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+</head>
+<body>
+  
+  <select id="api-selector">
+    <option value="userManagement">User Management</option>
+    <option value="chatBot">ChatBot</option>
+  </select>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    let ui;
+
+function initializeSwaggerUI(url) {
+  if (ui) {
+    ui.destroy();  // Destroy the existing instance
+  }
+
+  ui = SwaggerUIBundle({
+    url: url,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    layout: "StandaloneLayout"
+  });
+}
+
+// Initialize with default URL
+initializeSwaggerUI(getSwaggerUrl());
+
+document.getElementById('api-selector').addEventListener('change', (event) => {
+  const newUrl = getSwaggerUrl(event.target.value);
+  initializeSwaggerUI(newUrl);
+});
+    function getSwaggerUrl(selection) {
+      switch (selection) {
+        
+        case "chatbot":
+          return 'swaggerDefinitions/chatbot.yaml';
+        case "userManagement":
+        default:
+          return 'swaggerDefinitions/userManagement.yaml';
+      }
+    }
+  </script>
+</body>
+</html>
