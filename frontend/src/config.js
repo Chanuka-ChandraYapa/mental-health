@@ -10,7 +10,8 @@ const config = {
   backend: "https://mental-health-user-management-production.up.railway.app",
   chatbot: "https://mental-health-chatbot-production.up.railway.app/chatbot",
   forum: "https://mental-health-forum-production.up.railway.app",
-  moodtracker: "https://mental-health-mood-tracker.onrender.com/api",
+  moodtracker:
+    "https://mental-health-moodtracker-production.up.railway.app/api",
   resources: "https://mental-health-production-d8e1.up.railway.app",
 };
 
