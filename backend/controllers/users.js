@@ -66,7 +66,8 @@ exports.loginUser = async (req, res) => {
       }
     );
     const response = await fetch(
-      "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+      "https://mental-health-chatbot-production.up.railway.app/chatbot"
       // "http://127.0.0.1:5000/chatbot",
       {
         method: "POST",
