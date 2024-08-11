@@ -33,7 +33,8 @@ const Recommendations = ({ userId }) => {
   }
   const configs = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     },
   };
 

@@ -150,12 +150,12 @@ exports.getRecommendations = async (req, res) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-auth-token": req.header("x-auth-token"),
         },
         body: JSON.stringify({
           message:
             " Analyze the schema of questions an answers about a person's todays's mental state and give recommendations to the person with 500 word paragraph with no paragraph breaks. Please give only just the plain paragraph do not include text in point forms. No headings. No sub headings" +
             answers.pop().answers,
-          sessionId: id,
         }),
       }
     );

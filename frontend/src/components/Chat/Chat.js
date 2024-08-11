@@ -45,9 +45,10 @@ const Chat = () => {
         {
           method: "POST",
           headers: {
+            "x-auth-token": token,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: userInput, sessionId }),
+          body: JSON.stringify({ message: userInput }),
           // mode: "no-cors",
         }
       );

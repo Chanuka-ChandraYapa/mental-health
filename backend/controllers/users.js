@@ -49,7 +49,7 @@ exports.loginUser = async (req, res) => {
       payload,
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
-      (err, token) => {
+      async (err, token) => {
         if (err) throw err;
         res.json({
           token,
@@ -65,30 +65,30 @@ exports.loginUser = async (req, res) => {
             updatedAt: user.updatedAt,
           },
         });
-      }
-    );
-    const response = await fetch(
-      // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
-      "https://mental-health-chatbot-production.up.railway.app/chatbot",
-      // "http://127.0.0.1:5000/chatbot",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message:
-            "Use these details to interact with the user more personally. Just save following data for future reference. if they ask you respond with this details" +
-            "Name : " +
-            user.name +
-            "user bio : " +
-            user.bio +
-            "user personality type : " +
-            user.personality +
-            "user interests : " +
-            user.interests,
-          sessionId,
-        }),
+        const response = await fetch(
+          // "https://mental-health-chatbot-dlhq.onrender.com/chatbot",
+          "https://mental-health-chatbot-production.up.railway.app/chatbot",
+          // "http://127.0.0.1:5000/chatbot",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+            body: JSON.stringify({
+              message:
+                "Use these details to interact with the user more personally. Just save following data for future reference. if they ask you respond with this details" +
+                "Name : " +
+                user.name +
+                "user bio : " +
+                user.bio +
+                "user personality type : " +
+                user.personality +
+                "user interests : " +
+                user.interests,
+            }),
+          }
+        );
       }
     );
   } catch (err) {

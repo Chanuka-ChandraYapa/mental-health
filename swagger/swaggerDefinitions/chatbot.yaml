@@ -21,10 +21,6 @@ paths:
                   type: string
                   description: The message to be sent to the chatbot.
                   example: "Hello, how are you?"
-                sessionId:
-                  type: string
-                  description: The unique session ID for the chat session.
-                  example: "abc123"
       responses:
         "200":
           description: Successful response from the chatbot

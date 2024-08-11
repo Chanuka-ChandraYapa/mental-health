@@ -27,6 +27,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const chatEndRef = useRef(null);
+  const token = localStorage.getItem("token");
 
   const handleSend = async () => {
     if (userInput !== "") {
@@ -40,8 +41,9 @@ const ChatPage = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-auth-token": token,
           },
-          body: JSON.stringify({ message: userInput, sessionId }),
+          body: JSON.stringify({ message: userInput }),
           // mode: "no-cors",
         }
       );
