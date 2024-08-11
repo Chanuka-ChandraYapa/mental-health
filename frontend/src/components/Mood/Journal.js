@@ -22,7 +22,7 @@ import AddIcon from "@mui/icons-material/Add";
 import config from "../../config";
 import { set } from "react-hook-form";
 import renderSkeleton from "../../utils/forumSkeleton";
-import SwipeableViews from "react-swipeable-views";
+// import SwipeableViews from "react-swipeable-views";
 
 const API_URL = `${config.moodtracker}`;
 
@@ -220,7 +220,7 @@ const Journal = () => {
                 What did you do today?
               </Typography>
             )}
-            {isMobile ? (
+            {/* {isMobile ? (
               <SwipeableViews
                 index={currentIndex}
                 onChangeIndex={(index) => setCurrentIndex(index)}
@@ -241,42 +241,42 @@ const Journal = () => {
                   </Box>
                 ))}
               </SwipeableViews>
-            ) : (
-              <>
-                <List>
-                  {currentEntries.map((entry) => (
-                    <ListItem key={entry._id} alignItems="flex-start">
-                      <ListItemText
-                        primary={entry.entry}
-                        secondary={new Date(entry.date).toLocaleString()}
-                        sx={{ wordWrap: "break-word" }}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => handleDelete(entry._id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  ))}
-                </List>
-                {totalPages > 1 && (
-                  <Pagination
-                    count={totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    sx={{
-                      marginTop: "20px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  />
-                )}
-              </>
-            )}
+            ) : ( */}
+            <>
+              <List>
+                {currentEntries.map((entry) => (
+                  <ListItem key={entry._id} alignItems="flex-start">
+                    <ListItemText
+                      primary={entry.entry}
+                      secondary={new Date(entry.date).toLocaleString()}
+                      sx={{ wordWrap: "break-word" }}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => handleDelete(entry._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+              {totalPages > 1 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  sx={{
+                    marginTop: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                />
+              )}
+            </>
+            {/* )} */}
           </>
         )}
       </Paper>
