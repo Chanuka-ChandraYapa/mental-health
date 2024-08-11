@@ -104,7 +104,13 @@ const Forum = () => {
 
   return (
     <>
-      <Box bgcolor="background.default" color="text.primary" pt={5}>
+      <Box
+        bgcolor="background.default"
+        color="text.primary"
+        pt={5}
+        mt={4}
+        p={3}
+      >
         <Typography variant="h4" component="h2" gutterBottom>
           Community Forum
         </Typography>

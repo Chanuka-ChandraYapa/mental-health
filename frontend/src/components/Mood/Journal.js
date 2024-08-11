@@ -14,12 +14,15 @@ import {
   Pagination,
   IconButton,
   ListItemSecondaryAction,
+  useMediaQuery,
 } from "@mui/material";
+import theme from "../../utils/themes";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../config";
 import { set } from "react-hook-form";
 import renderSkeleton from "../../utils/forumSkeleton";
+import SwipeableViews from "react-swipeable-views";
 
 const API_URL = `${config.moodtracker}`;
 
@@ -27,10 +30,12 @@ const Journal = () => {
   const [journalEntry, setJournalEntry] = useState("");
   const [entries, setEntries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [showEntryForm, setShowEntryForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const entriesPerPage = 5;
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const entriesPerPage = isMobile ? 1 : 5;
 
   useEffect(() => {
     fetchEntries();
@@ -215,15 +220,17 @@ const Journal = () => {
                 What did you do today?
               </Typography>
             )}
-            <List>
-              {currentEntries.map((entry) => (
-                <ListItem key={entry._id} alignItems="flex-start">
-                  <ListItemText
-                    primary={entry.entry}
-                    secondary={new Date(entry.date).toLocaleString()}
-                    sx={{ wordWrap: "break-word" }}
-                  />
-                  <ListItemSecondaryAction>
+            {isMobile ? (
+              <SwipeableViews
+                index={currentIndex}
+                onChangeIndex={(index) => setCurrentIndex(index)}
+              >
+                {entries.map((entry) => (
+                  <Box key={entry._id} sx={{ padding: "10px" }}>
+                    <Typography variant="body1">{entry.entry}</Typography>
+                    <Typography variant="caption">
+                      {new Date(entry.date).toLocaleString()}
+                    </Typography>
                     <IconButton
                       edge="end"
                       aria-label="delete"
@@ -231,21 +238,44 @@ const Journal = () => {
                     >
                       <DeleteIcon />
                     </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
-            </List>
-            {totalPages > 1 && (
-              <Pagination
-                count={totalPages}
-                page={currentPage}
-                onChange={handlePageChange}
-                sx={{
-                  marginTop: "20px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              />
+                  </Box>
+                ))}
+              </SwipeableViews>
+            ) : (
+              <>
+                <List>
+                  {currentEntries.map((entry) => (
+                    <ListItem key={entry._id} alignItems="flex-start">
+                      <ListItemText
+                        primary={entry.entry}
+                        secondary={new Date(entry.date).toLocaleString()}
+                        sx={{ wordWrap: "break-word" }}
+                      />
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => handleDelete(entry._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+                </List>
+                {totalPages > 1 && (
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{
+                      marginTop: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  />
+                )}
+              </>
             )}
           </>
         )}

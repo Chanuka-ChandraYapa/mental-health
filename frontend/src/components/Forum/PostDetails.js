@@ -80,7 +80,13 @@ const PostDetails = () => {
 
   return (
     <>
-      <Box bgcolor="background.default" color="text.primary" pt={5}>
+      <Box
+        bgcolor="background.default"
+        color="text.primary"
+        pt={5}
+        p={4}
+        mt={4}
+      >
         <Card sx={{ marginBottom: 2 }}>
           <CardContent>
             {posts.map((post, index) => (

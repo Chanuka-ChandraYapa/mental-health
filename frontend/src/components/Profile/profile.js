@@ -30,7 +30,7 @@ const Dashboard = () => {
             <Card sx={{ height: 500, overflow: "auto" }}>
               <CardContent
                 className="scroll-container"
-                sx={{ overflowY: "scroll", paddingRight: "10px" }}
+                sx={{ overflowY: "scroll" }}
               >
                 {/* Content for Section 1 */}
                 <Journal />

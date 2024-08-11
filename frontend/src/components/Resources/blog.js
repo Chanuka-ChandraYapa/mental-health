@@ -268,6 +268,7 @@ const MediumEmbed = () => {
         bgcolor="background.default"
         color="text.primary"
         p={5}
+        mt={3}
         style={mainContentStyle}
       >
         {/* <TextField

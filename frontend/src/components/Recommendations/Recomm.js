@@ -114,7 +114,7 @@ const Recommendations = ({ userId }) => {
 
   return (
     <Container maxWidth="lg" mt={5}>
-      <Typography variant="h3" gutterBottom color="primary.main">
+      <Typography variant="h3" gutterBottom color="primary.main" mt={5}>
         Recommendations for today
       </Typography>
       <Typography variant="h5" paragraph color="text.primary">

@@ -132,7 +132,7 @@ export const PersonalInfo = () => {
             </Typography>
             <Divider />
             <Typography variant="body1" mb={1}>
-              <strong>Member Since:</strong> January 1, 2020
+              <strong>Member Since:</strong> {user.createdAt}
             </Typography>
             <Divider />
             <Typography variant="body1" mb={1}>

@@ -20,6 +20,7 @@ export const saveAnswers = async (answers, rating) => {
       { answers, rating },
       config
     );
+    localStorage.removeItem("recommondations");
     return response.data;
   } catch (error) {
     throw error.response.data;

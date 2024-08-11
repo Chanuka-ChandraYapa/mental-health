@@ -158,7 +158,7 @@ const MoodRatingGraph = ({ openQuestionnaire }) => {
               <Tooltip formatter={(value) => `${value}%`} />
               <Legend />
               <Line
-                type="monotone"
+                type="natural"
                 dataKey="rating"
                 stroke="#0bdc84"
                 activeDot={{ r: 8 }}

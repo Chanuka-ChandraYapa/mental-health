@@ -16,7 +16,15 @@ const options = {
         url: "http://localhost:5001/api/users",
         description: "User Management API",
       },
+      {
+        url: "https://mental-health-user-management-production.up.railway.app/api/users",
+        description: "User Management Production API",
+      },
       { url: "http://localhost:5000", description: "Chatbot API" },
+      {
+        url: "https://mental-health-chatbot-production.up.railway.app",
+        description: "Chatbot Production API",
+      },
       // Add more servers as needed
     ],
     components: {
