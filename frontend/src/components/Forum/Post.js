@@ -170,7 +170,7 @@ const Post = ({ post }) => {
           </Typography>
 
           <IconButton
-            onClick={() => handleVote(post._id, "upvote")}
+            onClick={() => handleVote(null, "upvote")}
             color="default"
           >
             <ThumbUpIcon />
@@ -179,7 +179,7 @@ const Post = ({ post }) => {
             {upvotes}
           </Typography>
           <IconButton
-            onClick={() => handleVote(post._id, "downvote")}
+            onClick={() => handleVote(null, "downvote")}
             color="default"
           >
             <ThumbDownIcon />

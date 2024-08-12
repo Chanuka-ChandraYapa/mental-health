@@ -18,9 +18,9 @@ const ReplySchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  replies: [this], // Self-referencing schema
   upvotes: { type: Number, default: 0 },
   downvotes: { type: Number, default: 0 },
+  replies: [this], // Self-referencing schema
 });
 
 const PostSchema = new Schema({

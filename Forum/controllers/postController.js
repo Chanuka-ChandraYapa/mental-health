@@ -52,24 +52,39 @@ const addReply = async (req, res) => {
     const userName = userResponse.data.name;
     console.log("hi reply", userName);
     const findReplyAndUpdate = (replies, replyId, newReply) => {
-      for (let reply of replies) {
-        if (reply._id.toString() === replyId) {
-          if (!reply.replies) {
-            reply.replies = [];
+      let replyFound = false;
+
+      // Function to process replies at the current level
+      const processReplies = (replies) => {
+        for (let reply of replies) {
+          if (reply._id.toString() === replyId) {
+            if (!reply.replies) {
+              reply.replies = [];
+            }
+            reply.replies.push(newReply);
+            replyFound = true;
+            console.log(replyId, reply._id);
+            return; // Exit once the reply is found and updated
           }
-          reply.replies.push(newReply);
-          console.log(replyId, reply._id);
-          return true;
         }
-        if (
-          reply.replies &&
-          findReplyAndUpdate(reply.replies, replyId, newReply)
-        ) {
-          console.log("nested reply called");
-          return true;
+      };
+
+      // Process all replies at the current level
+      processReplies(replies);
+
+      // If the reply was not found, continue searching recursively
+      if (!replyFound) {
+        for (let reply of replies) {
+          if (reply.replies && reply.replies.length > 0) {
+            if (findReplyAndUpdate(reply.replies, replyId, newReply)) {
+              console.log("nested reply called");
+              return true; // Return true if the reply was found and updated in recursion
+            }
+          }
         }
       }
-      return false;
+
+      return replyFound; // Return whether the reply was found or not
     };
 
     if (replyId) {
@@ -122,6 +137,7 @@ const addReply = async (req, res) => {
 
 const votePost = async (req, res) => {
   const { postId, userId, replyId, type } = req.body;
+  console.log("hi vote", req.body);
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -129,20 +145,41 @@ const votePost = async (req, res) => {
     }
 
     const findReplyAndUpdateVotes = (replies, replyId, type) => {
-      for (let reply of replies) {
-        if (reply._id.toString() === replyId) {
-          if (type === "upvote") {
-            reply.upvotes += 1;
-          } else if (type === "downvote") {
-            reply.downvotes += 1;
+      let replyFound = false;
+
+      // Function to process replies at the current level
+      const processReplies = (replies) => {
+        for (let reply of replies) {
+          console.log(replyId, reply._id, reply.content);
+          if (reply._id.toString() === replyId) {
+            replyFound = true;
+            console.log(replyId, reply.content);
+            if (type === "upvote") {
+              reply.upvotes += 1;
+              console.log(replyId, reply.content, "hj");
+            } else if (type === "downvote") {
+              reply.downvotes += 1;
+            }
+            return; // Exit once the reply is found and updated
           }
-          return true;
         }
-        if (findReplyAndUpdateVotes(reply.replies, replyId, type)) {
-          return true;
+      };
+
+      // Process all replies at the current level
+      processReplies(replies);
+
+      // If the reply was not found, continue searching recursively
+      if (!replyFound) {
+        for (let reply of replies) {
+          if (reply.replies && reply.replies.length > 0) {
+            if (findReplyAndUpdateVotes(reply.replies, replyId, type)) {
+              return true; // Return true if the reply was found and updated in recursion
+            }
+          }
         }
       }
-      return false;
+
+      return replyFound; // Return whether the reply was found or not
     };
 
     if (replyId) {
