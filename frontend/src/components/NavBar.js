@@ -124,21 +124,21 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
     >
       <List>
         <ListItem button onClick={() => handleChange(null, 0)}>
-          <ListItemText primary="Home" />
+          <ListItemText primary={t("home")} />
         </ListItem>
         {isTokenValid && (
           <>
             <ListItem button onClick={() => handleChange(null, 1)}>
-              <ListItemText primary="Chat" />
+              <ListItemText primary={t("chat")} />
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 2)}>
-              <ListItemText primary="Mood" />
+              <ListItemText primary={t("mood")} />
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 3)}>
-              <ListItemText primary="Recommendations" />
+              <ListItemText primary={t("recommendations")} />
             </ListItem>
             <ListItem button onClick={handleMenu}>
-              <ListItemText primary="Resources" />
+              <ListItemText primary={t("resources")} />
             </ListItem>
             <Menu
               id="menu-appbar"
@@ -155,33 +155,33 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleVideos}>Videos</MenuItem>
-              <MenuItem onClick={handleArticles}>Articles</MenuItem>
+              <MenuItem onClick={handleVideos}>{t("videos")}</MenuItem>
+              <MenuItem onClick={handleArticles}>{t("articles")}</MenuItem>
             </Menu>
             <ListItem button onClick={() => handleChange(null, 5)}>
-              <ListItemText primary="Support" />
+              <ListItemText primary={t("support")} />
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 6)}>
-              <ListItemText primary="Therapists" />
+              <ListItemText primary={t("therapists")} />
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 7)}>
-              <ListItemText primary="Profile" />
+              <ListItemText primary={t("profile")} />
             </ListItem>
             <ListItem button onClick={() => handleChange(null, 8)}>
-              <ListItemText primary="Notifications" />
+              <ListItemText primary={t("notifications")} />
             </ListItem>
             <ListItem button onClick={() => handleLogOut()}>
-              <ListItemText primary="Log Out" />
+              <ListItemText primary={t("logout")} />
             </ListItem>
           </>
         )}
         {!isTokenValid && (
           <>
             <ListItem button onClick={() => handleSignIn()}>
-              <ListItemText primary="Login" />
+              <ListItemText primary={t("login")} />
             </ListItem>
             <ListItem button onClick={() => handleRegister()}>
-              <ListItemText primary="Register" />
+              <ListItemText primary={t("signup")} />
             </ListItem>
           </>
         )}

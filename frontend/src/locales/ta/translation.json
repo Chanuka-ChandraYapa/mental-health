@@ -18,8 +18,10 @@
     "articles": "கட்டுரைகள்",
     "support": "ஆதரவு",
     "therapists": "தீர்வாளிகள்",
+    "notifications": "அறிவிப்புகள்",
+    "profile": "சுயவிவரம்",
     "logout": "வெளியேறு",
-    
+
     "moodCard": "Mood Tracking and Analysis",
     "moodCardDescription": "Track your mood and get insights on your mental health",
     "recommendationsCard": "Personalized Recommendations",
