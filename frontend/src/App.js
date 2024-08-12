@@ -36,6 +36,7 @@ import Login from "./components/Music/auth";
 import Callback from "./components/Music/callback";
 import Music from "./components/Music/music";
 import checkToken from "./utils/checkToken";
+import LanguageSwitcher from "./utils/langSwicher";
 
 const AppContent = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -106,6 +107,7 @@ const AppContent = () => {
       <Box mt={isMobile ? 0 : 0}></Box>
       {!isMobile && !isAuthPage && <ChatDrawer />}
       {!isAuthPage && <Music />}
+      <LanguageSwitcher />
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<SignIn />} />

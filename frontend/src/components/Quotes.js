@@ -1,11 +1,13 @@
 import { Fade, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const RandomQuote = () => {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
   const [visible, setVisible] = useState(true);
   const [showWelcome, setShowWelcome] = useState(true);
+  const { t } = useTranslation();
 
   const fetchQuote = async () => {
     setVisible(false); // Start fading out the old quote
@@ -43,7 +45,7 @@ const RandomQuote = () => {
           align="center"
           sx={{ color: "white" }} // Ensures text color is white for contrast
         >
-          Welcome to Mental Bloom
+          {t("welcome")}
         </Typography>
       )}
       <Fade in={visible} timeout={2000}>

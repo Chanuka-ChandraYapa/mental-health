@@ -14,6 +14,7 @@ import { GradientButton } from "./GradientButton";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -40,6 +41,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, message } = useSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const {
     handleSubmit,
@@ -99,7 +101,7 @@ const Register = () => {
             color="primary.main"
             mb={5}
           >
-            Register
+            {t("signup")}
           </Typography>
           <form onSubmit={handleSubmit(onFormSubmit)}>
             <Controller
@@ -109,7 +111,7 @@ const Register = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Name"
+                  label={t("name")}
                   variant="outlined"
                   fullWidth
                   error={!!errors.name}
@@ -125,7 +127,7 @@ const Register = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Email"
+                  label={t("email")}
                   variant="outlined"
                   fullWidth
                   type="email"
@@ -142,7 +144,7 @@ const Register = () => {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="Password"
+                  label={t("password")}
                   variant="outlined"
                   fullWidth
                   type="password"
@@ -163,7 +165,7 @@ const Register = () => {
                   ) : null
                 }
               >
-                {!loading ? "Register" : ""}
+                {!loading ? t("signup") : ""}
               </GradientButton>
               <Box
                 sx={{
@@ -174,7 +176,7 @@ const Register = () => {
                 mt={2}
               >
                 <Typography variant="body1" gutterBottom color="text.primary">
-                  Already have an account?
+                  {t("Already have an account?")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -184,7 +186,7 @@ const Register = () => {
                   sx={{ marginLeft: 1, cursor: "pointer" }}
                   color="primary.main"
                 >
-                  Login
+                  {t("login")}
                 </Typography>
               </Box>
             </div>

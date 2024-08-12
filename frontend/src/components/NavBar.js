@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useTranslation } from "react-i18next";
 
 const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
   const [value, setValue] = useState(0);
@@ -28,6 +29,7 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
   const { token } = useSelector((state) => state.user);
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { t } = useTranslation();
 
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
@@ -223,13 +225,13 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
         ) : (
           <>
             <Tabs value={value} onChange={handleChange}>
-              <Tab label="Home" />
-              {isTokenValid && <Tab label="Chat" />}
-              {isTokenValid && <Tab label="Mood" />}
-              {isTokenValid && <Tab label="Recommendations" />}
+              <Tab label={t("home")} />
+              {isTokenValid && <Tab label={t("chat")} />}
+              {isTokenValid && <Tab label={t("mood")} />}
+              {isTokenValid && <Tab label={t("recommendations")} />}
               {isTokenValid && (
                 <>
-                  <Tab label="Resources" onClick={handleMenu} />
+                  <Tab label={t("resources")} onClick={handleMenu} />
                   <Menu
                     id="menu-appbar"
                     anchorEl={anchorEl}
@@ -245,13 +247,15 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleVideos}>Videos</MenuItem>
-                    <MenuItem onClick={handleArticles}>Articles</MenuItem>
+                    <MenuItem onClick={handleVideos}>{t("videos")}</MenuItem>
+                    <MenuItem onClick={handleArticles}>
+                      {t("articles")}
+                    </MenuItem>
                   </Menu>
                 </>
               )}
-              {isTokenValid && <Tab label="Support" />}
-              {isTokenValid && <Tab label="Therapists" />}
+              {isTokenValid && <Tab label={t("support")} />}
+              {isTokenValid && <Tab label={t("therapists")} />}
               {/* {token && <Tab label="Profile" />} */}
               {isTokenValid && (
                 <Tab icon={<AccountCircleIcon />} aria-label="Profile" />
@@ -269,11 +273,11 @@ const NavBar = ({ unreadCount, setUnreadCount, isTokenValid }) => {
             </Tabs>
             {isTokenValid ? (
               <Button color="inherit" onClick={handleLogOut}>
-                Log Out
+                {t("logout")}
               </Button>
             ) : (
               <Button color="inherit" onClick={handleSignIn}>
-                Sign In
+                {t("login")}
               </Button>
             )}
           </>

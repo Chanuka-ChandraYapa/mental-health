@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router-dom"; // Import the hook
 import { GradientButton } from "./GradientButton";
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use the hook
   const { token, message } = useSelector((state) => state.user);
+  const { t } = useTranslation();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -91,7 +93,7 @@ const SignIn = () => {
             color="primary.main"
             mb={5}
           >
-            Sign In
+            {t("login")}
           </Typography>
           <form
             onSubmit={onSubmit}
@@ -103,7 +105,7 @@ const SignIn = () => {
             }}
           >
             <TextField
-              label="Email"
+              label={t("email")}
               variant="outlined"
               fullWidth
               type="email"
@@ -113,7 +115,7 @@ const SignIn = () => {
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="Password"
+              label={t("password")}
               variant="outlined"
               fullWidth
               type="password"
@@ -134,7 +136,7 @@ const SignIn = () => {
                   ) : null
                 }
               >
-                {!loading ? "Sign In" : ""}
+                {!loading ? t("login") : ""}
               </GradientButton>
               <Box
                 sx={{
@@ -145,7 +147,7 @@ const SignIn = () => {
                 mt={2}
               >
                 <Typography variant="body1" gutterBottom color="text.primary">
-                  Don't have an account?
+                  {t("Don't have an account?")}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -155,7 +157,7 @@ const SignIn = () => {
                   sx={{ marginLeft: 1, cursor: "pointer" }}
                   color="primary.main"
                 >
-                  Register
+                  {t("signup")}
                 </Typography>
               </Box>
             </div>

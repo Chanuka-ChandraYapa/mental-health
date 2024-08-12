@@ -1,0 +1,37 @@
+{
+    "welcome": "Welcome to Mental Bloom",
+    "description":"Our platform is designed to provide comprehensive support and guidance for your mental well-being. Scroll Down to explore the key features and services we offer",
+    "name": "Name",
+    "login": "Sign In",
+    "signup": "Register",
+    "profile": "Profile",
+    "email": "Email",
+    "password": "Password",
+    "Don't have an account?": "Don't have an account?",
+    "Already have an account?": "Already have an account?",
+
+    "home": "Home",
+    "chat": "Chat",
+    "mood": "Mood",
+    "recommendations": "Recommendations",
+    "resources": "Resources",
+    "videos": "Videos",
+    "articles": "Articles",
+    "support": "Support",
+    "therapists": "Therapists",
+    "logout": "Logout",
+
+    "moodCard": "Mood Tracking and Analysis",
+    "moodCardDescription": "Track your mood and get insights on your mental health",
+    "recommendationsCard": "Personalized Recommendations",
+    "recommendationsCardDescription": "Get personalized recommendations based on your mood and preferences",
+    "resourcesCard": "Resources and Support",
+    "resourcesCardDescription": "Access a wide range of resources and support materials to aid in your mental health journey.",
+    "supportCard": "Support Forums",
+    "supportCardDescription": "Connect with others and share your experiences in a safe and supportive environment",
+    "therapistsCard": "Therapists and Crisis Interventions",
+    "therapistsCardDescription": "Access a network of mental health professionals and crisis intervention services",
+    "chatCard": "AI Chat Assistance",
+    "chatCardDescription": "Access the personalized chatbot which was speciallytrained towards the mental health care Assistance."
+  }
+  

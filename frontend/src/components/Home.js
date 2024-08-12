@@ -14,9 +14,11 @@ import { GradientButton } from "./GradientButton";
 import Footer from "./Footer";
 import RandomQuote from "./Quotes";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { token } = useSelector((state) => state.user);
+  const { t } = useTranslation();
   return (
     <>
       <Box bgcolor="background.default" pb={10} minHeight="100vh">
@@ -70,9 +72,7 @@ const Home = () => {
               align="center"
               fontSize={30}
             >
-              Our platform is designed to provide comprehensive support and
-              guidance for your mental well-being. Scrool Down to explore the
-              key features and services we offer.
+              {t("description")}
             </Typography>
 
             {!token && (
@@ -119,11 +119,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Mood Tracking and Analysis
+                      {t("moodCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Track your mood over time and gain insights into patterns
-                      and triggers.
+                      {t("moodCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -152,11 +151,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Personalized Recommendations
+                      {t("recommendationsCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Receive personalized recommendations based on your mood
-                      and preferences.
+                      {t("recommendationsCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -185,11 +183,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Resources and Support
+                      {t("resourcesCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Access a wealth of resources and support materials to aid
-                      in your mental health journey.
+                      {t("resourcesCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -218,11 +215,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Support Forums
+                      {t("supportCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Participate in supportive communities and connect with
-                      others facing similar challenges.
+                      {t("supportCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -251,11 +247,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Therapists and Crisis Interventions
+                      {t("therapistsCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Access professional therapists and crisis interventions as
-                      soon as you needed them most.
+                      {t("therapistsCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -284,11 +279,10 @@ const Home = () => {
                   </div>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      AI Chat Assistance
+                      {t("chatCard")}
                     </Typography>
                     <Typography variant="body2">
-                      Access the personalized chatbot which was specially
-                      trained towards the mental health care Assistance.
+                      {t("chatCardDescription")}
                     </Typography>
                   </CardContent>
                 </Card>
