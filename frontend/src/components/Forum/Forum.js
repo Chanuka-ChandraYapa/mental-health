@@ -17,7 +17,7 @@ import config from "../../config";
 import renderSkeleton from "../../utils/forumSkeleton";
 
 const Forum = () => {
-  const { user, message, token } = useSelector((state) => state.user);
+  const { message, token } = useSelector((state) => state.user);
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({
     title: "",
@@ -27,6 +27,7 @@ const Forum = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     axios
