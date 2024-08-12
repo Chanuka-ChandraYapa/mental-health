@@ -45,7 +45,8 @@ const addReply = async (req, res) => {
   try {
     const userResponse = await axios.post(
       // `http://localhost:5001/api/users/userInfo`,
-      "https://mental-health-user-management.onrender.com/api/users/userInfo",
+      // "https://mental-health-user-management.onrender.com/api/users/userInfo",
+      "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
       req.body
     );
     const userName = userResponse.data.name;
@@ -104,12 +105,12 @@ const addReply = async (req, res) => {
       post.replies.push({ content, userId, userName });
       await post.save();
 
-      const postUserId = post.userId;
-      const notificationMessage = `Your post "${post.title}" has a new reply.`;
-      await axios.post("http://localhost:4000/send-notification", {
-        message: notificationMessage,
-        userId: postUserId,
-      });
+      // const postUserId = post.userId;
+      // const notificationMessage = `Your post "${post.title}" has a new reply.`;
+      // await axios.post("http://localhost:4000/send-notification", {
+      //   message: notificationMessage,
+      //   userId: postUserId,
+      // });
 
       res.json(post);
     }

@@ -47,7 +47,8 @@ const Journal = () => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        "x-auth-token": token,
       },
     };
     try {

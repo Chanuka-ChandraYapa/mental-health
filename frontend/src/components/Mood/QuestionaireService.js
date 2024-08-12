@@ -10,7 +10,8 @@ export const saveAnswers = async (answers, rating) => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     },
   };
 
@@ -33,7 +34,8 @@ export const getAnswers = async () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
+      "x-auth-token": token,
     },
   };
 
