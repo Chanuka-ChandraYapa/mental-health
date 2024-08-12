@@ -45,10 +45,7 @@ const Recommendations = ({ userId }) => {
     console.log(localStorage.getItem("recommondations"));
     const fetchRecommendations = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/recommendations/${sessionId}`,
-          configs
-        );
+        const response = await axios.get(`${API_URL}/recommendations`, configs);
         setRecommendations(response.data.recommendations);
         setDisplayText(response.data.recommendations);
         console.log(response.data.recommendations);

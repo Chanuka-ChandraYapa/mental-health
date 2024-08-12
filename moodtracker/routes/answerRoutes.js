@@ -6,6 +6,6 @@ const auth = require("../middleware/auth");
 
 router.post("/answers", auth, saveAnswers);
 router.get("/answers", auth, getAnswers);
-router.get("/recommendations/:id", auth, getRecommendations);
+router.get("/recommendations", auth, getRecommendations);
 
 module.exports = router;
