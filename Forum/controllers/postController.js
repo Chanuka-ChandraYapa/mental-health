@@ -92,32 +92,32 @@ const getPosts = async (req, res) => {
 //   }
 // };
 
-// const createPost = async (req, res) => {
-//   const { title, content, userId } = req.body;
-//   try {
-//     console.log("hi", req.body);
-//     const userResponse = await axios.post(
-//       // `http://localhost:5001/api/users/userInfo`,
-//       // "https://mental-health-user-management.onrender.com/api/users/userInfo",
-//       "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
-//       req.body
-//     );
-//     const userName = userResponse.data.name;
-//     console.log("hi", userName);
+const createPost = async (req, res) => {
+  const { title, content, userId } = req.body;
+  try {
+    console.log("hi", req.body);
+    const userResponse = await axios.post(
+      // `http://localhost:5001/api/users/userInfo`,
+      // "https://mental-health-user-management.onrender.com/api/users/userInfo",
+      "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
+      req.body
+    );
+    const userName = userResponse.data.name;
+    console.log("hi", userName);
 
-//     const newPost = new Post({
-//       title,
-//       content,
-//       userId,
-//       userName,
-//     });
+    const newPost = new Post({
+      title,
+      content,
+      userId,
+      userName,
+    });
 
-//     const savedPost = await newPost.save();
-//     res.json(savedPost);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+    const savedPost = await newPost.save();
+    res.json(savedPost);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 const addReply = async (req, res) => {
   const { content, userId, postId, replyId } = req.body;
