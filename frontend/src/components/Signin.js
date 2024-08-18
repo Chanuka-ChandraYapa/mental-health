@@ -23,6 +23,7 @@ const SignIn = () => {
 
   const { email, password } = formData;
   const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use the hook
@@ -34,6 +35,7 @@ const SignIn = () => {
 
   const onSubmit = async (e) => {
     setLoading(true);
+    setInvalid(false);
     e.preventDefault();
     const sessionId = localStorage.getItem("sessionId") || uuidv4();
     if (!localStorage.getItem("sessionId")) {
@@ -41,11 +43,12 @@ const SignIn = () => {
     }
     try {
       await dispatch(login({ email, password, sessionId }));
+      if (message && message.msg === "Invalid credentials") {
+        setInvalid(true);
+      }
     } catch (e) {
-      // setLoading(false);
+      setLoading(false);
     }
-    console.log("yay..", token);
-    console.log(message);
     setLoading(false);
     if (localStorage.getItem("token")) {
       // navigate("/"); // Navigate to the home page
@@ -138,6 +141,13 @@ const SignIn = () => {
               >
                 {!loading ? t("login") : ""}
               </GradientButton>
+              {invalid && (
+                <div>
+                  <Typography variant="body2" gutterBottom color="error" mt={2}>
+                    {t("Invalid Credentials")}
+                  </Typography>
+                </div>
+              )}
               <Box
                 sx={{
                   display: "flex",

@@ -20,7 +20,7 @@ const ReplySchema = new Schema({
   },
   upvotes: { type: Number, default: 0 },
   downvotes: { type: Number, default: 0 },
-  replies: [this], // Self-referencing schema
+  replies: [this],
 });
 
 const PostSchema = new Schema({

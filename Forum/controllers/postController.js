@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const Reply = require("../models/Reply");
 const axios = require("axios");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
@@ -11,33 +12,112 @@ const getPosts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+// const getPosts = async (req, res) => {
+//   try {
+//     const posts = await Post.find().populate("replies");
 
-const createPost = async (req, res) => {
-  const { title, content, userId } = req.body;
-  try {
-    console.log("hi", req.body);
-    const userResponse = await axios.post(
-      // `http://localhost:5001/api/users/userInfo`,
-      // "https://mental-health-user-management.onrender.com/api/users/userInfo",
-      "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
-      req.body
-    );
-    const userName = userResponse.data.name;
-    console.log("hi", userName);
+//     // Function to create hierarchical structure
+//     const buildPostHierarchy = async (posts) => {
+//       const processedPosts = await Promise.all(
+//         posts.map(async (post) => {
+//           const {
+//             _id,
+//             title,
+//             content,
+//             userId,
+//             userName,
+//             date,
+//             upvotes,
+//             downvotes,
+//             replies,
+//           } = post;
+//           const processedReplies = await buildReplyHierarchy(replies); // Pass the replies array itself
+//           return {
+//             _id,
+//             title,
+//             content,
+//             userId,
+//             userName,
+//             date,
+//             upvotes,
+//             downvotes,
+//             replies: processedReplies,
+//           };
+//         })
+//       );
+//       return processedPosts;
+//     };
 
-    const newPost = new Post({
-      title,
-      content,
-      userId,
-      userName,
-    });
+//     const buildReplyHierarchy = async (replies) => {
+//       if (!replies || replies.length === 0) {
+//         // Base case: No replies
+//         return [];
+//       }
 
-    const savedPost = await newPost.save();
-    res.json(savedPost);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+//       const processedReplies = await Promise.all(
+//         replies.map(async (reply) => {
+//           const {
+//             _id,
+//             content,
+//             userId,
+//             userName,
+//             date,
+//             upvotes,
+//             downvotes,
+//             parentId,
+//             replies,
+//           } = reply;
+//           const children = await buildReplyHierarchy(replies); // Recursively process children
+//           return {
+//             _id,
+//             content,
+//             userId,
+//             userName,
+//             date,
+//             upvotes,
+//             downvotes,
+//             parentId,
+//             replies: children,
+//           };
+//         })
+//       );
+//       return processedReplies;
+//     };
+
+//     const processedPosts = await buildPostHierarchy(posts);
+//     res.json(processedPosts);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+// const createPost = async (req, res) => {
+//   const { title, content, userId } = req.body;
+//   try {
+//     console.log("hi", req.body);
+//     const userResponse = await axios.post(
+//       // `http://localhost:5001/api/users/userInfo`,
+//       // "https://mental-health-user-management.onrender.com/api/users/userInfo",
+//       "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
+//       req.body
+//     );
+//     const userName = userResponse.data.name;
+//     console.log("hi", userName);
+
+//     const newPost = new Post({
+//       title,
+//       content,
+//       userId,
+//       userName,
+//     });
+
+//     const savedPost = await newPost.save();
+//     res.json(savedPost);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 
 const addReply = async (req, res) => {
   const { content, userId, postId, replyId } = req.body;
@@ -134,6 +214,65 @@ const addReply = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// const addReply = async (req, res) => {
+//   const { content, userId, postId, replyId } = req.body;
+
+//   try {
+//     // Fetch user information (replace with your user logic)
+//     const userResponse = await axios.post(
+//       "https://mental-health-user-management-production.up.railway.app/api/users/userInfo",
+//       req.body
+//     );
+//     const userName = userResponse.data.name;
+
+//     // Create new reply
+//     const newReply = new Reply({
+//       content,
+//       userId,
+//       userName,
+//       date: Date.now(),
+//       upvotes: 0,
+//       downvotes: 0,
+//       parentId: replyId || null, // Set parentId if replyId is provided
+//       postId,
+//     });
+
+//     // Save the new reply
+//     newReply.postId = postId; // Assign the post ID to the new reply
+
+//     if (replyId) {
+//       // Find the parent reply
+//       const parentReply = await Reply.findById(replyId);
+//       if (!parentReply) {
+//         return res.status(404).json({ message: "Parent reply not found" });
+//       }
+
+//       // Set the parent ID on the new reply
+//       newReply.parentId = parentReply._id;
+//     }
+
+//     await newReply.save();
+
+//     // Add the new reply to the post's replies
+//     const post = await Post.findByIdAndUpdate(
+//       postId,
+//       { $push: { replies: newReply._id } },
+//       { new: true }
+//     );
+//     if (!post) {
+//       return res.status(404).json({ message: "Post not found" });
+//     }
+//     res.json(post);
+
+//     // res.json(post);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
+// module.exports = addReply;
 
 const votePost = async (req, res) => {
   const { postId, userId, replyId, type } = req.body;

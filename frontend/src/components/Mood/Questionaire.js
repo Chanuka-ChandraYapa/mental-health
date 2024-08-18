@@ -18,9 +18,9 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { saveAnswers } from "./QuestionaireService";
-import { questions1, questions2 } from "./questions";
 import { scores1, scores2 } from "./scores";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import { useTranslation } from "react-i18next";
 
 const Questionnaire = ({ setStep, setOpenQuestionnaire }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -31,6 +31,10 @@ const Questionnaire = ({ setStep, setOpenQuestionnaire }) => {
   const [moodRating, setMoodRating] = useState(null);
   const [questions, setQuestions] = useState([]);
   const [scores, setScores] = useState({});
+  const { t } = useTranslation();
+
+  var questions1 = t("questions1", { returnObjects: true });
+  var questions2 = t("questions2", { returnObjects: true });
 
   useEffect(() => {
     // Randomly select between the two sets of questions and scores
@@ -44,7 +48,7 @@ const Questionnaire = ({ setStep, setOpenQuestionnaire }) => {
       setQuestions(questions2);
       setScores(scores2);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     setIsAnswerValid(currentAnswer.length > 0);
